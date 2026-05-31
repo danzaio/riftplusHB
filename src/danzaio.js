@@ -15,9 +15,9 @@ const pageKind = location.pathname.includes("/yasuo/")
 			? "ls"
 			: location.pathname.includes("/hanbot/")
 				? "hanbot"
-				: "home";
-const assetPrefix = pageKind === "home" ? "./" : "../";
-const rootPrefix = pageKind === "home" ? "./" : "../";
+				: "hanbot";
+const assetPrefix = pageKind === "home" || pageKind === "hanbot" ? "./" : "../";
+const rootPrefix = pageKind === "home" || pageKind === "hanbot" ? "./" : "../";
 const requestEndpoint = window.RIFTPLUS_REQUEST_ENDPOINT || "";
 let activeLanguage = localStorage.getItem("riftplusLanguage") || "en";
 
