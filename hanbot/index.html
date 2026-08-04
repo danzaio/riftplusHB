@@ -1,18 +1,344 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US" data-champion="samira">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rift+ | Hanbot</title>
+    <meta name="theme-color" content="#06111b" />
     <meta
       name="description"
-      content="Rift+ Hanbot champion suite with 30 supported champions, clean menus, player requests, bug reports, and feature requests."
+      content="RiftReborn is a champion-specific Hanbot AIO for Samira, Graves, and Ezreal, with configurable combat logic, safety checks, and readable tuning."
     />
-    <link rel="icon" type="image/png" href="../assets/meta/android-chrome-192x192.png" />
-    <link rel="stylesheet" href="../src/styles.css?v=1779229574674" />
+    <meta property="og:title" content="RiftReborn | Hanbot Champion AIO" />
+    <meta
+      property="og:description"
+      content="Explore the Samira, Graves, and Ezreal releases, their spell systems, safety rules, and configurable controls."
+    />
+    <meta property="og:url" content="https://danzaio.github.io/riftplus/hanbot/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RiftReborn" />
+    <meta property="og:locale" content="en_US" />
+    <meta
+      property="og:image"
+      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftreborn-social.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RiftReborn | Hanbot Champion AIO" />
+    <meta
+      name="twitter:description"
+      content="Explore the Samira, Graves, and Ezreal releases, their spell systems, safety rules, and configurable controls."
+    />
+    <meta
+      name="twitter:image"
+      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftreborn-social.jpg"
+    />
+    <link rel="canonical" href="https://danzaio.github.io/riftplus/hanbot/" />
+    <link rel="icon" type="image/svg+xml" href="./assets/meta/riftreborn-mark.svg" />
+    <link rel="preload" as="image" href="./assets/champions/samira-splash.jpg" fetchpriority="high" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="./assets/fonts/beaufort-bold.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="./assets/fonts/spiegel-regular.woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260804-1" />
+    <title>RiftReborn | Hanbot Champion AIO</title>
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
-  <body class="danzaio-body">
-    <div id="app"></div>
-    <script type="module" src="../src/danzaio.js?v=1779229574674"></script>
+  <body id="top">
+    <a class="skip-link" href="#main" data-i18n="skipLink">Skip to content</a>
+
+    <header class="client-bar" data-client-bar>
+      <div class="client-bar__progress" aria-hidden="true"><span data-scroll-progress></span></div>
+      <div class="client-bar__inner">
+        <a class="brand" href="#top" aria-label="RiftReborn home" data-i18n-aria="brandHome">
+          <img class="brand__mark" src="./assets/meta/riftreborn-mark.svg" alt="" />
+          <span class="brand__name">RIFTREBORN</span>
+        </a>
+
+        <nav class="client-nav" aria-label="Primary navigation" data-i18n-aria="primaryNavigation">
+          <a href="#releases" data-i18n="navReleases">Releases</a>
+          <a href="#system" data-i18n="navSystem">System</a>
+        </nav>
+
+        <div class="client-actions">
+          <label class="language-control">
+            <span class="sr-only" data-i18n="languageLabel">Language</span>
+            <select data-language aria-label="Language">
+              <option value="en-US">EN-US</option>
+              <option value="pt-BR">PT-BR</option>
+              <option value="zh-CN">中文</option>
+              <option value="de-DE">DE</option>
+              <option value="tr-TR">TR</option>
+              <option value="pl-PL">PL</option>
+            </select>
+          </label>
+          <a
+            class="action action--primary action--compact"
+            href="https://dsc.gg/danzaio"
+            target="_blank"
+            rel="noreferrer"
+            data-discord-link
+          >
+            <span data-i18n="navDiscord">Discord</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__media" aria-hidden="true">
+          <img
+            class="hero__art is-active"
+            src="./assets/champions/samira-splash.jpg"
+            alt=""
+            fetchpriority="high"
+            data-hero-art="samira"
+          />
+          <img
+            class="hero__art"
+            src="./assets/champions/graves-splash.jpg"
+            alt=""
+            loading="eager"
+            data-hero-art="graves"
+          />
+          <img
+            class="hero__art"
+            src="./assets/champions/ezreal-splash.jpg"
+            alt=""
+            loading="eager"
+            data-hero-art="ezreal"
+          />
+          <div class="hero__scrim"></div>
+        </div>
+
+        <div class="hero__ornament hero__ornament--top" aria-hidden="true"><span></span></div>
+        <div class="hero__inner page-shell">
+          <div class="hero__copy">
+            <p class="eyebrow" data-i18n="heroEyebrow">HANBOT CHAMPION AIO</p>
+            <h1 id="hero-title">RIFTREBORN</h1>
+            <p class="hero__lead" data-i18n="heroLead">
+              Champion-specific scripts rebuilt for deliberate control, safer decisions, and readable tuning.
+            </p>
+            <div class="hero__actions">
+              <a class="action action--primary" href="#releases" data-i18n="heroPrimary">Explore releases</a>
+              <a
+                class="text-action"
+                href="https://dsc.gg/danzaio"
+                target="_blank"
+                rel="noreferrer"
+                data-discord-link
+              >
+                <span data-i18n="heroSecondary">Join Discord</span>
+                <span aria-hidden="true">&#8599;</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="hero__release-index" aria-label="Champion releases" data-i18n-aria="heroReleaseLabel">
+            <button class="release-chip is-active" type="button" data-champion-select="samira" aria-pressed="true">
+              <img src="./assets/champions/samira.png" alt="" />
+              <span><strong>SAMIRA</strong><small>RELEASE 01</small></span>
+            </button>
+            <button class="release-chip" type="button" data-champion-select="graves" aria-pressed="false">
+              <img src="./assets/champions/graves.png" alt="" />
+              <span><strong>GRAVES</strong><small>RELEASE 02</small></span>
+            </button>
+            <button class="release-chip" type="button" data-champion-select="ezreal" aria-pressed="false">
+              <img src="./assets/champions/ezreal.png" alt="" />
+              <span><strong>EZREAL</strong><small>RELEASE 03</small></span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="release-section" id="releases" aria-labelledby="release-title">
+        <div class="section-heading page-shell">
+          <div>
+            <p class="eyebrow" data-i18n="releaseEyebrow">CHAMPION PROFILES</p>
+            <h2 id="release-title" data-i18n="releaseTitle">Three releases. Three distinct combat systems.</h2>
+          </div>
+          <p data-i18n="releaseBody">
+            Every profile keeps its own spell logic, priorities, safety checks, and menu surface.
+          </p>
+        </div>
+
+        <div class="profile-shell page-shell">
+          <aside class="profile-roster" aria-label="Champion selector" data-i18n-aria="rosterAria">
+            <p class="profile-roster__label" data-i18n="rosterLabel">RELEASE ROSTER</p>
+            <button class="roster-entry is-active" type="button" data-champion-select="samira" aria-pressed="true">
+              <span class="roster-entry__number">01</span>
+              <img src="./assets/champions/samira.png" alt="" />
+              <span><strong>SAMIRA</strong><small>RELEASE</small></span>
+            </button>
+            <button class="roster-entry" type="button" data-champion-select="graves" aria-pressed="false">
+              <span class="roster-entry__number">02</span>
+              <img src="./assets/champions/graves.png" alt="" />
+              <span><strong>GRAVES</strong><small>RELEASE</small></span>
+            </button>
+            <button class="roster-entry" type="button" data-champion-select="ezreal" aria-pressed="false">
+              <span class="roster-entry__number">03</span>
+              <img src="./assets/champions/ezreal.png" alt="" />
+              <span><strong>EZREAL</strong><small>RELEASE</small></span>
+            </button>
+            <div class="profile-roster__footer">
+              <span data-i18n="rosterCountLabel">ACTIVE RELEASES</span>
+              <strong>03</strong>
+            </div>
+          </aside>
+
+          <article class="champion-stage" aria-live="polite">
+            <img
+              class="champion-stage__art"
+              src="./assets/champions/samira-splash.jpg"
+              alt="Samira, the Desert Rose"
+              data-profile-art
+            />
+            <div class="champion-stage__scrim"></div>
+            <div class="champion-stage__identity">
+              <span class="champion-stage__release">RELEASE 01</span>
+              <p data-champion-epithet>THE DESERT ROSE</p>
+              <h3 data-champion-name>SAMIRA</h3>
+              <span data-champion-role>MARKSMAN / ASSASSIN</span>
+            </div>
+            <div class="champion-stage__metrics">
+              <div><span data-i18n="controlsLabel">CONTROLS</span><strong data-control-count>112</strong></div>
+              <div><span data-i18n="statusLabel">STATUS</span><strong>RELEASE</strong></div>
+              <div><span data-i18n="platformLabel">PLATFORM</span><strong>HANBOT</strong></div>
+            </div>
+          </article>
+
+          <div class="ability-console">
+            <div class="ability-console__heading">
+              <p class="eyebrow" data-i18n="profileEyebrow">CHAMPION SYSTEM</p>
+              <p class="ability-console__intro" data-champion-intro>
+                Style-aware routes coordinate Q, W, E and R without flattening Samira into one fixed Combo.
+              </p>
+            </div>
+
+            <div
+              class="ability-tabs"
+              role="tablist"
+              aria-label="Champion abilities"
+              data-ability-tabs
+              data-i18n-aria="abilityNavigation"
+            ></div>
+
+            <section class="ability-detail" role="tabpanel" tabindex="0" aria-live="polite">
+              <div class="ability-detail__title">
+                <span data-ability-key>P</span>
+                <div>
+                  <p data-i18n="selectedSystemLabel">SELECTED SYSTEM</p>
+                  <h4 data-ability-name>Daredevil Impulse</h4>
+                </div>
+              </div>
+              <p class="ability-detail__summary" data-ability-summary>
+                Tracks Style and hard CC windows so automatic routes respect the conditions that make Samira's passive matter.
+              </p>
+              <ul class="system-list" data-system-list>
+                <li>Attack Hard CC Targets</li>
+                <li>Fast S</li>
+                <li>Insanity S</li>
+                <li>Automatic R: Style S</li>
+              </ul>
+            </section>
+
+            <div class="ability-console__footer">
+              <span data-i18n="menuSourceLabel">MENU SOURCE</span>
+              <strong data-menu-source>samira_menu.lua</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="system-section" id="system" aria-labelledby="system-title">
+        <div class="system-section__inner page-shell">
+          <div class="system-heading">
+            <p class="eyebrow" data-i18n="systemEyebrow">THE SHARED CORE</p>
+            <h2 id="system-title" data-i18n="systemTitle">One contract. Champion logic stays distinct.</h2>
+            <p data-i18n="systemBody">
+              Shared infrastructure handles documented runtime contracts. Combat identity remains inside each champion.
+            </p>
+          </div>
+
+          <ol class="system-track">
+            <li>
+              <span class="system-track__node"><b>01</b></span>
+              <div>
+                <h3 data-i18n="pillarSdkTitle">Documented SDK</h3>
+                <p data-i18n="pillarSdk">
+                  Shared helpers follow documented object, Prediction, damage, and callback contracts.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="system-track__node"><b>02</b></span>
+              <div>
+                <h3 data-i18n="pillarChampionTitle">Champion Logic</h3>
+                <p data-i18n="pillarChampion">
+                  Spells, ranges, priorities, and combat state stay isolated per champion.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="system-track__node"><b>03</b></span>
+              <div>
+                <h3 data-i18n="pillarSafetyTitle">Fail-closed Safety</h3>
+                <p data-i18n="pillarSafety">
+                  Unsupported identifiers and unsafe routes are rejected instead of guessed.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="discord-section" aria-labelledby="discord-title">
+        <div class="discord-section__line" aria-hidden="true"><span></span></div>
+        <div class="discord-section__inner page-shell">
+          <p class="eyebrow" data-i18n="discordEyebrow">RIFTREBORN // DISCORD</p>
+          <h2 id="discord-title" data-i18n="discordTitle">Meet all three releases in one place.</h2>
+          <p data-i18n="discordBody">
+            Compare their systems, follow new releases, and continue the conversation in Discord.
+          </p>
+          <a
+            class="action action--primary"
+            href="https://dsc.gg/danzaio"
+            target="_blank"
+            rel="noreferrer"
+            data-discord-link
+            data-i18n="discordAction"
+          >Join Discord</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner page-shell">
+        <a class="brand brand--footer" href="#top">
+          <img class="brand__mark" src="./assets/meta/riftreborn-mark.svg" alt="" />
+          <span class="brand__name">RIFTREBORN</span>
+        </a>
+        <p class="site-footer__legal" data-i18n="legalDisclaimer">
+          RiftReborn is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone
+          officially involved in producing or managing Riot Games properties. Riot Games and all associated properties
+          are trademarks or registered trademarks of Riot Games, Inc.
+        </p>
+        <a class="site-footer__back" href="#top" data-i18n="backToTop">Back to top</a>
+      </div>
+    </footer>
+
+    <script defer src="./content.js?v=20260804-1"></script>
+    <script defer src="./app.js?v=20260804-1"></script>
   </body>
 </html>

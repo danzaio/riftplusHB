@@ -1,0 +1,11 @@
+{
+  "name": "riftreborn-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/content.test.mjs",
+    "check": "node --check hanbot/content.js && node --check hanbot/app.js && node --check tests/browser-audit.mjs && node --test tests/content.test.mjs",
+    "audit:mobile": "node tests/browser-audit.mjs --url http://127.0.0.1:4174/hanbot/?lang=pt-BR --width 390 --height 844 --screenshot .artifacts/mobile-audit.png",
+    "audit:desktop": "node tests/browser-audit.mjs --url http://127.0.0.1:4174/hanbot/?lang=pt-BR --width 1440 --height 1000 --screenshot .artifacts/desktop-audit.png"
+  }
+}
