@@ -7,6 +7,20 @@
     throw new Error("RiftReborn content failed to load.");
   }
 
+  function clampHorizontalScroll() {
+    if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
+  }
+
+  try {
+    window.history.scrollRestoration = "manual";
+  } catch (_error) {
+    // Some embedded clients do not expose scroll restoration.
+  }
+
+  clampHorizontalScroll();
+  window.addEventListener("scroll", clampHorizontalScroll, { passive: true });
+  window.addEventListener("pageshow", clampHorizontalScroll);
+
   const localeAliases = {
     en: "en-US",
     "en-us": "en-US",
