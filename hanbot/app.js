@@ -56,6 +56,12 @@
     abilityName: document.querySelector("[data-ability-name]"),
     abilitySummary: document.querySelector("[data-ability-summary]"),
     systemList: document.querySelector("[data-system-list]"),
+    communityChampion: document.querySelector("[data-community-champion]"),
+    communityFeature: document.querySelector("[data-community-feature]"),
+    communityFeedback: document.querySelector("[data-community-feedback]"),
+    communityForm: document.querySelector("[data-community-form]"),
+    communityFormMessage: document.querySelector("[data-community-form-message]"),
+    communityList: document.querySelector("[data-community-list]"),
     scrollProgress: document.querySelector("[data-scroll-progress]"),
   };
 
@@ -69,7 +75,36 @@
     ability: content.abilityOrder.includes(params.get("ability")) ? params.get("ability") : "passive",
     transitionTimer: 0,
     scrollFrame: 0,
+    community: readCommunityState(),
   };
+
+  const communitySeeds = [
+    { id: "samira-q-flash-window", champion: "samira", ability: "q", copyKey: "communityProposalSamiraQ", votes: 31, threshold: 40 },
+    { id: "graves-e-wall-return", champion: "graves", ability: "e", copyKey: "communityProposalGravesE", votes: 42, threshold: 55 },
+    { id: "ezreal-wq-collision", champion: "ezreal", ability: "w", copyKey: "communityProposalEzrealW", votes: 38, threshold: 50 },
+    { id: "samira-w-threat-filter", champion: "samira", ability: "w", copyKey: "communityProposalSamiraW", votes: 18, threshold: 30 },
+  ];
+
+  function readCommunityState() {
+    try {
+      const raw = window.localStorage.getItem("riftrebornCommunityState");
+      const parsed = raw ? JSON.parse(raw) : {};
+      return {
+        votes: parsed && parsed.votes && typeof parsed.votes === "object" ? parsed.votes : {},
+        submissions: Array.isArray(parsed?.submissions) ? parsed.submissions.slice(-12) : [],
+      };
+    } catch (_error) {
+      return { votes: {}, submissions: [] };
+    }
+  }
+
+  function storeCommunityState() {
+    try {
+      window.localStorage.setItem("riftrebornCommunityState", JSON.stringify(state.community));
+    } catch (_error) {
+      // The board remains usable when browser storage is unavailable.
+    }
+  }
 
   function normalizeLocale(locale) {
     if (!locale) return content.defaultLocale;
@@ -141,12 +176,18 @@
       if (typeof value === "string") element.setAttribute("aria-label", value);
     });
 
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+      const value = copy[element.dataset.i18nPlaceholder];
+      if (typeof value === "string") element.setAttribute("placeholder", value);
+    });
+
     if (dom.language) {
       dom.language.value = state.locale;
       dom.language.setAttribute("aria-label", copy.languageLabel);
     }
 
     updateMetadata(copy);
+    renderCommunity();
   }
 
   function renderChampion(options) {
@@ -190,6 +231,8 @@
 
     renderAbilityTabs();
     renderAbility();
+    renderCommunityFeatureOptions();
+    renderCommunity();
   }
 
   function renderAbilityTabs() {
@@ -258,6 +301,140 @@
     });
     dom.systemList.textContent = "";
     dom.systemList.appendChild(fragment);
+  }
+
+  function renderCommunityFeatureOptions() {
+    if (!dom.communityChampion || !dom.communityFeature) return;
+    const championId = content.champions[dom.communityChampion.value] ? dom.communityChampion.value : "samira";
+    const championCopy = translation().champions[championId];
+    const selected = dom.communityFeature.value;
+    dom.communityFeature.textContent = "";
+    content.abilityOrder.forEach((abilityId) => {
+      const option = document.createElement("option");
+      option.value = abilityId;
+      option.textContent = `${content.champions[championId].abilities[abilityId].key} — ${championCopy.abilities[abilityId]}`;
+      dom.communityFeature.appendChild(option);
+    });
+    if (content.abilityOrder.includes(selected)) dom.communityFeature.value = selected;
+  }
+
+  function communityProposalCopy(proposal) {
+    const champion = content.champions[proposal.champion];
+    const championCopy = translation().champions[proposal.champion];
+    const ability = champion.abilities[proposal.ability];
+    return {
+      championName: championCopy.displayName,
+      featureName: championCopy.abilities[proposal.ability],
+      featureKey: ability.key,
+    };
+  }
+
+  function renderCommunity() {
+    if (!dom.communityList) return;
+    const copy = translation();
+    const proposals = [...communitySeeds, ...state.community.submissions];
+    dom.communityList.textContent = "";
+
+    proposals.forEach((proposal) => {
+      const labels = communityProposalCopy(proposal);
+      const isSubmission = proposal.status === "review";
+      const extraVote = state.community.votes[proposal.id] ? 1 : 0;
+      const votes = Number(proposal.votes || 0) + extraVote;
+      const threshold = Number(proposal.threshold || 30);
+      const isRelease = !isSubmission && votes >= threshold;
+      const card = document.createElement("article");
+      card.className = "community-proposal";
+      card.dataset.proposalId = proposal.id;
+
+      const header = document.createElement("div");
+      header.className = "community-proposal__header";
+      const tag = document.createElement("span");
+      tag.className = "community-proposal__tag";
+      tag.textContent = `${labels.championName} / ${labels.featureKey}`;
+      const status = document.createElement("span");
+      status.className = `community-proposal__status${isRelease ? " is-release" : ""}`;
+      status.textContent = isSubmission
+        ? copy.communityStatusReview
+        : isRelease ? copy.communityStatusRelease : copy.communityStatusVoting;
+      header.append(tag, status);
+
+      const title = document.createElement("h4");
+      title.textContent = labels.featureName;
+      const description = document.createElement("p");
+      description.textContent = proposal.copyKey ? copy[proposal.copyKey] : proposal.description;
+
+      const footer = document.createElement("div");
+      footer.className = "community-proposal__footer";
+      const meter = document.createElement("div");
+      meter.className = "community-proposal__meter";
+      const meterText = document.createElement("span");
+      meterText.textContent = isSubmission
+        ? copy.communityFormHint
+        : copy.communityVotesToShip.replace("{votes}", String(votes)).replace("{threshold}", String(threshold));
+      const bar = document.createElement("span");
+      bar.className = "community-proposal__bar";
+      const fill = document.createElement("span");
+      fill.style.width = `${isSubmission ? 18 : Math.min(100, (votes / threshold) * 100)}%`;
+      bar.appendChild(fill);
+      meter.append(meterText, bar);
+      footer.appendChild(meter);
+
+      if (!isSubmission && !isRelease) {
+        const voted = Boolean(state.community.votes[proposal.id]);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "action action--compact community-vote";
+        button.dataset.communityVote = proposal.id;
+        button.disabled = voted;
+        button.textContent = voted ? copy.communityVoted : copy.communityVoteYes;
+        footer.appendChild(button);
+      } else if (isRelease) {
+        const release = document.createElement("span");
+        release.className = "community-proposal__release-mark";
+        release.textContent = copy.communityStatusRelease;
+        footer.appendChild(release);
+      }
+
+      card.append(header, title, description, footer);
+      dom.communityList.appendChild(card);
+    });
+  }
+
+  function submitCommunityProposal(event) {
+    event.preventDefault();
+    if (!dom.communityFeedback || !dom.communityChampion || !dom.communityFeature) return;
+    const description = dom.communityFeedback.value.trim();
+    if (!description) {
+      dom.communityFormMessage.textContent = translation().communityFormEmpty;
+      dom.communityFormMessage.className = "community-form__message is-error";
+      dom.communityFeedback.focus();
+      return;
+    }
+
+    state.community.submissions.push({
+      id: `submission-${Date.now()}`,
+      champion: dom.communityChampion.value,
+      ability: dom.communityFeature.value,
+      description,
+      status: "review",
+      votes: 0,
+      threshold: 30,
+    });
+    state.community.submissions = state.community.submissions.slice(-12);
+    storeCommunityState();
+    dom.communityFeedback.value = "";
+    dom.communityFormMessage.textContent = translation().communityFormSuccess;
+    dom.communityFormMessage.className = "community-form__message is-success";
+    renderCommunity();
+  }
+
+  function voteForCommunityProposal(proposalId) {
+    if (!proposalId || state.community.votes[proposalId]) return;
+    const proposal = communitySeeds.find((entry) => entry.id === proposalId);
+    if (!proposal) return;
+    state.community.votes[proposalId] = true;
+    storeCommunityState();
+    renderCommunity();
   }
 
   function selectChampion(championId, updateUrl) {
@@ -329,6 +506,17 @@
 
   dom.championSelectors.forEach((button) => {
     button.addEventListener("click", () => selectChampion(button.dataset.championSelect, true));
+  });
+
+  dom.communityChampion?.addEventListener("change", () => {
+    renderCommunityFeatureOptions();
+  });
+
+  dom.communityForm?.addEventListener("submit", submitCommunityProposal);
+
+  dom.communityList?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-community-vote]");
+    if (button) voteForCommunityProposal(button.dataset.communityVote);
   });
 
   if (dom.language) {

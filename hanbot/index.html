@@ -48,7 +48,7 @@
       href="./assets/fonts/spiegel-regular.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="./styles.css?v=20260805-3" />
+    <link rel="stylesheet" href="./styles.css?v=20260805-4" />
     <title>RiftReborn | Hanbot Champion AIO</title>
     <script>
       document.documentElement.classList.add("js");
@@ -67,6 +67,7 @@
 
         <nav class="client-nav" aria-label="Primary navigation" data-i18n-aria="primaryNavigation">
           <a href="#releases" data-i18n="navReleases">Releases</a>
+          <a href="#community" data-i18n="navCommunity">Community</a>
           <a href="#system" data-i18n="navSystem">System</a>
         </nav>
 
@@ -261,6 +262,105 @@
         </div>
       </section>
 
+      <section class="community-section" id="community" aria-labelledby="community-title">
+        <div class="community-section__inner page-shell">
+          <div class="community-heading">
+            <div>
+              <p class="eyebrow" data-i18n="communityEyebrow">BUILT BY PLAYERS</p>
+              <h2 id="community-title" data-i18n="communityTitle">The AIO grows from the way you actually play.</h2>
+            </div>
+            <p data-i18n="communityBody">
+              Every feature starts with a player request. The community decides what earns a place in the next release.
+            </p>
+          </div>
+
+          <ol class="community-flow" aria-label="Community release loop" data-i18n-aria="communityFlowLabel">
+            <li>
+              <span class="community-flow__index">01</span>
+              <div>
+                <h3 data-i18n="communityStepSubmit">Submit</h3>
+                <p data-i18n="communityStepSubmitBody">Point to a champion and a feature, then describe what should change.</p>
+              </div>
+            </li>
+            <li>
+              <span class="community-flow__index">02</span>
+              <div>
+                <h3 data-i18n="communityStepCurate">Curate</h3>
+                <p data-i18n="communityStepCurateBody">Requests are checked for scope, safety, and a clear runtime contract.</p>
+              </div>
+            </li>
+            <li>
+              <span class="community-flow__index">03</span>
+              <div>
+                <h3 data-i18n="communityStepVote">Vote</h3>
+                <p data-i18n="communityStepVoteBody">When a request is ready, players vote yes on the exact behavior they want.</p>
+              </div>
+            </li>
+            <li>
+              <span class="community-flow__index">04</span>
+              <div>
+                <h3 data-i18n="communityStepShip">Ship</h3>
+                <p data-i18n="communityStepShipBody">When yes reaches the threshold, the feature enters the next AIO release queue automatically.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="community-workspace">
+            <form class="community-form" data-community-form>
+              <p class="eyebrow" data-i18n="communityFormEyebrow">YOUR INPUT</p>
+              <h3 data-i18n="communityFormTitle">Suggest a change</h3>
+              <p class="community-form__intro" data-i18n="communityFormBody">
+                Tell us where the current behavior misses your playstyle. Specific feedback gets reviewed faster.
+              </p>
+
+              <label class="community-field">
+                <span data-i18n="communityChampionLabel">Champion</span>
+                <select data-community-champion aria-label="Champion" data-i18n-aria="communityChampionLabel">
+                  <option value="samira">Samira</option>
+                  <option value="graves">Graves</option>
+                  <option value="ezreal">Ezreal</option>
+                </select>
+              </label>
+
+              <label class="community-field">
+                <span data-i18n="communityFeatureLabel">Feature</span>
+                <select data-community-feature aria-label="Feature" data-i18n-aria="communityFeatureLabel"></select>
+              </label>
+
+              <label class="community-field">
+                <span data-i18n="communityFeedbackLabel">What should change?</span>
+                <textarea
+                  data-community-feedback
+                  rows="4"
+                  maxlength="420"
+                  placeholder="Example: wait for a confirmed hard CC window before Q Flash."
+                  aria-label="What should change?"
+                  data-i18n-aria="communityFeedbackLabel"
+                  data-i18n-placeholder="communityFeedbackPlaceholder"
+                ></textarea>
+              </label>
+
+              <div class="community-form__footer">
+                <p class="community-form__hint" data-i18n="communityFormHint">Submissions enter curation before voting.</p>
+                <button class="action action--primary action--compact" type="submit" data-i18n="communitySubmit">Submit for curation</button>
+              </div>
+              <p class="community-form__message" data-community-form-message role="status" aria-live="polite"></p>
+            </form>
+
+            <section class="community-board" aria-labelledby="community-board-title">
+              <div class="community-board__heading">
+                <div>
+                  <p class="eyebrow" data-i18n="communityQueueEyebrow">LIVE FEATURE BOARD</p>
+                  <h3 id="community-board-title" data-i18n="communityQueueTitle">What players are shaping now</h3>
+                </div>
+                <p data-i18n="communityQueueBody">Vote on behavior, not vague promises. A request only moves forward when the community says yes.</p>
+              </div>
+              <div class="community-board__list" data-community-list></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
       <section class="system-section" id="system" aria-labelledby="system-title">
         <div class="system-section__inner page-shell">
           <div class="system-heading">
@@ -339,6 +439,6 @@
     </footer>
 
     <script defer src="./content.js?v=20260804-1"></script>
-    <script defer src="./app.js?v=20260805-3"></script>
+    <script defer src="./app.js?v=20260805-4"></script>
   </body>
 </html>
