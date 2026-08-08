@@ -102,7 +102,7 @@ body {
   width: 100%;
   max-width: 100%;
   min-width: 320px;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--ink);
   color: var(--cream);
   font-family: Spiegel, Arial, sans-serif;
@@ -1039,7 +1039,7 @@ select:focus-visible,
   grid-template-columns: 50px minmax(0, 1fr);
   align-items: center;
   gap: 16px;
-  margin-bottom: 22px;
+  margin-bottom: 12px;
 }
 
 .ability-detail__title > span {
@@ -1069,7 +1069,7 @@ select:focus-visible,
 
 .ability-detail__summary {
   min-height: 98px;
-  margin-bottom: 28px;
+  margin-bottom: 12px;
   color: #cbc4b5;
   font-size: 0.91rem;
   line-height: 1.65;
