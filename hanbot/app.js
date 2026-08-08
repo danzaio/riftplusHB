@@ -505,6 +505,21 @@
     });
   }
 
+  function observeReveals() {
+    if (!("IntersectionObserver" in window)) return;
+    const targets = Array.from(document.querySelectorAll("[data-reveal]"));
+    if (!targets.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-inview");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.12 });
+    targets.forEach((target) => observer.observe(target));
+  }
+
   function observePredictionReveal() {
     if (!("IntersectionObserver" in window)) return;
     const asset = document.querySelector(".prediction-asset");
@@ -552,5 +567,6 @@
   renderChampion({ animate: false });
   updateScrollProgress();
   observeSections();
+  observeReveals();
   observePredictionReveal();
 })();

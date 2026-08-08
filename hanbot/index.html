@@ -48,7 +48,7 @@
       href="./assets/fonts/spiegel-regular.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="./styles.css?v=20260808-3" />
+    <link rel="stylesheet" href="./styles.css?v=20260808-5" />
     <title>RiftPlus | Hanbot Champion AIO</title>
     <script>
       document.documentElement.classList.add("js");
@@ -176,7 +176,7 @@
       </section>
 
       <section class="release-section" id="releases" aria-labelledby="release-title">
-        <div class="section-heading page-shell">
+        <div class="section-heading page-shell" data-reveal>
           <div>
             <h2 id="release-title" data-i18n="releaseTitle">Four releases. Four distinct combat systems.</h2>
           </div>
@@ -185,7 +185,7 @@
           </p>
         </div>
 
-        <div class="profile-shell page-shell">
+        <div class="profile-shell page-shell" data-reveal>
           <aside class="profile-roster" aria-label="Champion selector" data-i18n-aria="rosterAria">
             <p class="profile-roster__label" data-i18n="rosterLabel">RELEASE ROSTER</p>
             <button class="roster-entry is-active" type="button" data-champion-select="samira" aria-pressed="true">
@@ -279,7 +279,7 @@
 
       <section class="prediction-section" id="prediction" aria-labelledby="prediction-title">
         <div class="prediction-section__inner page-shell">
-          <div class="prediction-heading">
+          <div class="prediction-heading" data-reveal>
             <h2 id="prediction-title" data-i18n="predictionTitle">
               One Prediction engine under every release.
             </h2>
@@ -350,7 +350,7 @@
 
       <section class="community-section" id="community" aria-labelledby="community-title">
         <div class="community-section__inner page-shell">
-          <div class="community-heading">
+          <div class="community-heading" data-reveal>
             <div>
               <h2 id="community-title" data-i18n="communityTitle">The AIO grows from the way you actually play.</h2>
             </div>
@@ -359,7 +359,7 @@
             </p>
           </div>
 
-          <ol class="community-flow" aria-label="Community release loop" data-i18n-aria="communityFlowLabel">
+          <ol class="community-flow" aria-label="Community release loop" data-i18n-aria="communityFlowLabel" data-reveal>
             <li>
               <span class="community-flow__index">01</span>
               <div>
@@ -390,7 +390,7 @@
             </li>
           </ol>
 
-          <div class="community-workspace">
+          <div class="community-workspace" data-reveal>
             <form class="community-form" data-community-form>
               <h3 data-i18n="communityFormTitle">Suggest a change</h3>
               <p class="community-form__intro" data-i18n="communityFormBody">
@@ -447,7 +447,7 @@
 
       <section class="system-section" id="system" aria-labelledby="system-title">
         <div class="system-section__inner page-shell">
-          <div class="system-heading">
+          <div class="system-heading" data-reveal>
             <p class="eyebrow" data-i18n="systemEyebrow">THE SHARED CORE</p>
             <h2 id="system-title" data-i18n="systemTitle">One contract. Champion logic stays distinct.</h2>
             <p data-i18n="systemBody">
@@ -455,7 +455,7 @@
             </p>
           </div>
 
-          <ol class="system-track">
+          <ol class="system-track" data-reveal>
             <li>
               <span class="system-track__node"><b>01</b></span>
               <div>
@@ -489,7 +489,7 @@
 
       <section class="discord-section" aria-labelledby="discord-title">
         <div class="discord-section__line" aria-hidden="true"><span></span></div>
-        <div class="discord-section__inner page-shell">
+        <div class="discord-section__inner page-shell" data-reveal>
           <h2 id="discord-title" data-i18n="discordTitle">Meet all four releases in one place.</h2>
           <p data-i18n="discordBody">
             Compare their systems, follow new releases, and continue the conversation in Discord.
@@ -506,7 +506,7 @@
       </section>
     </main>
 
-    <footer class="site-footer">
+      <footer class="site-footer" data-reveal>
       <div class="site-footer__inner page-shell">
         <a class="brand brand--footer" href="#top">
           <img class="brand__mark" src="./assets/meta/riftplus-mark.svg" alt="" />
@@ -522,6 +522,6 @@
     </footer>
 
     <script defer src="./content.js?v=20260808-1"></script>
-    <script defer src="./app.js?v=20260808-3"></script>
+    <script defer src="./app.js?v=20260808-5"></script>
   </body>
 </html>
