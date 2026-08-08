@@ -13,13 +13,13 @@
       property="og:description"
       content="Explore the Samira, Graves, Ezreal, and Jinx releases, their spell systems, safety rules, and configurable controls."
     />
-    <meta property="og:url" content="https://danzaio.github.io/riftplus/hanbot/" />
+    <meta property="og:url" content="https://danzaio.github.io/riftplusHB/hanbot/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="RiftPlus" />
     <meta property="og:locale" content="en_US" />
     <meta
       property="og:image"
-      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftplus-social.jpg"
+      content="https://danzaio.github.io/riftplusHB/hanbot/assets/meta/riftplus-social.jpg"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="RiftPlus | Hanbot Champion AIO" />
@@ -29,9 +29,9 @@
     />
     <meta
       name="twitter:image"
-      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftplus-social.jpg"
+      content="https://danzaio.github.io/riftplusHB/hanbot/assets/meta/riftplus-social.jpg"
     />
-    <link rel="canonical" href="https://danzaio.github.io/riftplus/hanbot/" />
+    <link rel="canonical" href="https://danzaio.github.io/riftplusHB/hanbot/" />
     <link rel="icon" type="image/svg+xml" href="./assets/meta/riftplus-mark.svg" />
     <link rel="preload" as="image" href="./assets/champions/samira-splash.jpg" fetchpriority="high" />
     <link
@@ -94,8 +94,29 @@
             <span data-i18n="navDiscord">Discord</span>
           </a>
         </div>
+
+        <button
+          class="client-menu"
+          type="button"
+          aria-expanded="false"
+          aria-controls="client-drawer"
+          data-menu-toggle
+        >
+          <span class="client-menu__bar"></span>
+          <span class="client-menu__bar"></span>
+          <span class="sr-only" data-i18n="navMenu">Menu</span>
+        </button>
       </div>
     </header>
+
+    <div class="client-backdrop" data-menu-backdrop></div>
+    <nav class="client-drawer" id="client-drawer" aria-label="Mobile navigation" data-i18n-aria="primaryNavigation" data-menu-drawer>
+      <a href="#releases" data-menu-link data-i18n="navReleases">Releases</a>
+      <a href="#prediction" data-menu-link data-i18n="navPrediction">Prediction</a>
+      <a href="#community" data-menu-link data-i18n="navCommunity">Community</a>
+      <a href="#system" data-menu-link data-i18n="navSystem">System</a>
+      <a href="https://dsc.gg/danzaio" target="_blank" rel="noreferrer" data-discord-link data-i18n="navDiscord">Discord</a>
+    </nav>
 
     <main id="main">
       <section class="hero" aria-labelledby="hero-title">
@@ -111,21 +132,24 @@
             class="hero__art"
             src="./assets/champions/graves-splash.jpg"
             alt=""
-            loading="eager"
+            loading="lazy"
+            decoding="async"
             data-hero-art="graves"
           />
           <img
             class="hero__art"
             src="./assets/champions/ezreal-splash.jpg"
             alt=""
-            loading="eager"
+            loading="lazy"
+            decoding="async"
             data-hero-art="ezreal"
           />
           <img
             class="hero__art"
             src="./assets/champions/jinx-splash.jpg"
             alt=""
-            loading="eager"
+            loading="lazy"
+            decoding="async"
             data-hero-art="jinx"
           />
           <div class="hero__scrim"></div>
@@ -152,25 +176,7 @@
                 <span aria-hidden="true">&#8599;</span>
               </a>
             </div>
-          </div>
-
-          <div class="hero__release-index" aria-label="Champion releases" data-i18n-aria="heroReleaseLabel">
-            <button class="release-chip is-active" type="button" data-champion-select="samira" aria-pressed="true">
-              <img src="./assets/champions/samira.png" alt="" />
-              <span><strong>SAMIRA</strong><small>RELEASE 01</small></span>
-            </button>
-            <button class="release-chip" type="button" data-champion-select="graves" aria-pressed="false">
-              <img src="./assets/champions/graves.png" alt="" />
-              <span><strong>GRAVES</strong><small>RELEASE 02</small></span>
-            </button>
-            <button class="release-chip" type="button" data-champion-select="ezreal" aria-pressed="false">
-              <img src="./assets/champions/ezreal.png" alt="" />
-              <span><strong>EZREAL</strong><small>RELEASE 03</small></span>
-            </button>
-            <button class="release-chip" type="button" data-champion-select="jinx" aria-pressed="false">
-              <img src="./assets/champions/jinx.png" alt="" />
-              <span><strong>JINX</strong><small>RELEASE 04</small></span>
-            </button>
+            <p class="hero__release-flag" data-hero-release aria-hidden="true"></p>
           </div>
         </div>
       </section>
@@ -284,50 +290,73 @@
               One Prediction engine under every release.
             </h2>
             <p data-i18n="predictionBody">
-              Every spell decision runs through the same documented Prediction contract: hitchance, traces, and safety gates stay consistent across profiles.
+              Skillshot prediction built from scratch, with an adaptive profiler that reads how the enemy moves and tightens hit chance as the match speeds up.
             </p>
           </div>
-          <figure class="prediction-asset">
-            <div class="prediction-asset__frame" role="img" data-i18n-aria="predictionAssetAria">
-              <div class="prediction-asset__chrome">
-                <span class="prediction-asset__label">RIFTPRED · PREDICTION PANEL</span>
+          <figure class="prediction-asset" data-prediction-asset>
+            <div class="prediction-panel" data-prediction-panel data-verdict="accepted">
+              <div class="prediction-panel__chrome">
+                <span class="prediction-panel__label">RIFTPRED · PREDICTION ENGINE</span>
+                <span class="prediction-panel__status">
+                  <span class="prediction-panel__dot" aria-hidden="true"></span>
+                  <span data-case-status>CAST FIRED</span>
+                </span>
               </div>
-              <div class="prediction-scene" aria-hidden="true">
-                <span class="prediction-scene__grid"></span>
-                <span class="prediction-scene__caster"></span>
-                <span class="prediction-scene__trace"></span>
-                <span class="prediction-scene__ghost prediction-scene__ghost--1"></span>
-                <span class="prediction-scene__ghost prediction-scene__ghost--2"></span>
-                <span class="prediction-scene__ghost prediction-scene__ghost--3"></span>
-                <span class="prediction-scene__impact"></span>
+
+              <div class="prediction-panel__body">
+                <ol class="prediction-steps">
+                  <li>
+                    <span class="prediction-steps__index"><b>01</b></span>
+                    <div>
+                      <h3>TRACE</h3>
+                      <p>Sample enemy movement and build an adaptive position profile as the match speeds up.</p>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="prediction-steps__index"><b>02</b></span>
+                    <div>
+                      <h3>HITCHANCE</h3>
+                      <p>Turn the profile into a hit window: speed, range, and reaction time decide the score.</p>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="prediction-steps__index"><b>03</b></span>
+                    <div>
+                      <h3>GATE</h3>
+                      <p>Fail-closed check: the cast only fires when the window clears the configured threshold.</p>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="prediction-steps__index"><b>04</b></span>
+                    <div>
+                      <h3>CAST</h3>
+                      <p>Fire with the verified window and log the result — every hit stays traceable.</p>
+                    </div>
+                  </li>
+                </ol>
+
+                <aside class="prediction-chart" aria-label="Prediction telemetry">
+                  <div class="prediction-chart__bar">
+                    <span class="prediction-chart__prompt">RIFTPRED</span>
+                    <span class="prediction-chart__stats">
+                      <span>HIT <b data-stat="hitchance">86%</b></span>
+                      <span>GATE <b data-stat="gate">PASSED</b></span>
+                      <span>TRACE <b data-stat="trace">STABLE</b></span>
+                    </span>
+                  </div>
+                  <div class="prediction-chart__wrap">
+                    <canvas data-prediction-chart role="img" aria-label="Hitchance over the prediction window"></canvas>
+                  </div>
+                </aside>
               </div>
-              <div class="prediction-panel-card" aria-hidden="true">
-                <div class="prediction-panel-card__header">
-                  <span class="prediction-panel-card__title">ADAPTIVE DATA PANEL</span>
-                  <span class="prediction-panel-card__status"><span class="prediction-panel-card__dot"></span>ACTIVE</span>
+
+              <div class="prediction-panel__footer">
+                <div class="prediction-cases" role="group" aria-label="Prediction scenario selector">
+                  <button class="prediction-case-btn is-active" type="button" data-prediction-case="accepted" aria-pressed="true">ACCEPTED</button>
+                  <button class="prediction-case-btn" type="button" data-prediction-case="rejected" aria-pressed="false">REJECTED</button>
+                  <button class="prediction-case-btn" type="button" data-prediction-case="trace" aria-pressed="false">EVADE TRACE</button>
                 </div>
-                <dl class="prediction-panel-card__rows">
-                  <div class="prediction-panel-card__row">
-                    <dt>TARGET</dt>
-                    <dd>GRAVES</dd>
-                  </div>
-                  <div class="prediction-panel-card__row">
-                    <dt>HITCHANCE</dt>
-                    <dd>HIGH ≥ ACCEPTED</dd>
-                  </div>
-                  <div class="prediction-panel-card__row">
-                    <dt>TRACE</dt>
-                    <dd>EVADE-SAFE</dd>
-                  </div>
-                  <div class="prediction-panel-card__row">
-                    <dt>GATE</dt>
-                    <dd>FAIL-CLOSED</dd>
-                  </div>
-                  <div class="prediction-panel-card__row">
-                    <dt>CONFIRMED HITS</dt>
-                    <dd>LOGGED</dd>
-                  </div>
-                </dl>
+                <ol class="cast-log" data-cast-log aria-label="Recent verified casts"></ol>
               </div>
             </div>
             <figcaption class="prediction-benefits">
@@ -355,7 +384,7 @@
               <h2 id="community-title" data-i18n="communityTitle">The AIO grows from the way you actually play.</h2>
             </div>
             <p data-i18n="communityBody">
-              Every feature starts with a player request. The community decides what earns a place in the next release.
+              Preview the feature loop: submit a request, vote on what matters, and watch it move. Demo data stays in this browser.
             </p>
           </div>
 
@@ -385,7 +414,7 @@
               <span class="community-flow__index">04</span>
               <div>
                 <h3 data-i18n="communityStepShip">Ship</h3>
-                <p data-i18n="communityStepShipBody">When yes reaches the threshold, the feature enters the next AIO release queue automatically.</p>
+                <p data-i18n="communityStepShipBody">On the live board, yes votes feed the next AIO release queue. This demo tracks votes locally.</p>
               </div>
             </li>
           </ol>
@@ -426,7 +455,7 @@
               </label>
 
               <div class="community-form__footer">
-                <p class="community-form__hint" data-i18n="communityFormHint">Submissions enter curation before voting.</p>
+                <p class="community-form__hint" data-i18n="communityFormHint">Demo mode — submissions and votes are stored on this device.</p>
                 <button class="action action--primary action--compact" type="submit" data-i18n="communitySubmit">Submit for curation</button>
               </div>
               <p class="community-form__message" data-community-form-message role="status" aria-live="polite"></p>
@@ -436,6 +465,7 @@
               <div class="community-board__heading">
                 <div>
                   <h3 id="community-board-title" data-i18n="communityQueueTitle">What players are shaping now</h3>
+                  <span class="community-demo-note" data-i18n="communityDemoNote">LOCAL DEMO · DATA STAYS IN THIS BROWSER</span>
                 </div>
                 <p data-i18n="communityQueueBody">Vote on behavior, not vague promises. A request only moves forward when the community says yes.</p>
               </div>
@@ -455,33 +485,60 @@
             </p>
           </div>
 
-          <ol class="system-track" data-reveal>
+          <div class="system-arch" data-reveal>
+            <div class="system-arch__core">
+              <span class="system-arch__core-node"><b>CORE</b></span>
+              <p class="system-arch__core-caption">SHARED RUNTIME · ONE ENGINE</p>
+            </div>
+            <div class="system-arch__spine" aria-hidden="true"></div>
+            <ol class="system-arch__champions" aria-label="Releases running on the shared core">
+              <li>
+                <span class="system-arch__champ-img"><img src="./assets/champions/samira.png" alt="" /></span>
+                <strong>SAMIRA</strong>
+                <small>01</small>
+              </li>
+              <li>
+                <span class="system-arch__champ-img"><img src="./assets/champions/graves.png" alt="" /></span>
+                <strong>GRAVES</strong>
+                <small>02</small>
+              </li>
+              <li>
+                <span class="system-arch__champ-img"><img src="./assets/champions/ezreal.png" alt="" /></span>
+                <strong>EZREAL</strong>
+                <small>03</small>
+              </li>
+              <li>
+                <span class="system-arch__champ-img"><img src="./assets/champions/jinx.png" alt="" /></span>
+                <strong>JINX</strong>
+                <small>04</small>
+              </li>
+            </ol>
+            <ul class="system-arch__contracts" aria-label="Shared runtime contracts">
+              <li>PREDICTION</li>
+              <li>DAMAGE</li>
+              <li>CALLBACKS</li>
+              <li>SAFETY</li>
+            </ul>
+          </div>
+
+          <ol class="system-pillars" data-reveal>
             <li>
-              <span class="system-track__node"><b>01</b></span>
-              <div>
-                <h3 data-i18n="pillarSdkTitle">Documented SDK</h3>
-                <p data-i18n="pillarSdk">
-                  Shared helpers follow documented object, Prediction, damage, and callback contracts.
-                </p>
-              </div>
+              <h3 data-i18n="pillarSdkTitle">Documented SDK</h3>
+              <p data-i18n="pillarSdk">
+                Shared helpers follow documented object, Prediction, damage, and callback contracts.
+              </p>
             </li>
             <li>
-              <span class="system-track__node"><b>02</b></span>
-              <div>
-                <h3 data-i18n="pillarChampionTitle">Champion Logic</h3>
-                <p data-i18n="pillarChampion">
-                  Spells, ranges, priorities, and combat state stay isolated per champion.
-                </p>
-              </div>
+              <h3 data-i18n="pillarChampionTitle">Champion Logic</h3>
+              <p data-i18n="pillarChampion">
+                Spells, ranges, priorities, and combat state stay isolated per champion.
+              </p>
             </li>
             <li>
-              <span class="system-track__node"><b>03</b></span>
-              <div>
-                <h3 data-i18n="pillarSafetyTitle">Fail-closed Safety</h3>
-                <p data-i18n="pillarSafety">
-                  Unsupported identifiers and unsafe routes are rejected instead of guessed.
-                </p>
-              </div>
+              <h3 data-i18n="pillarSafetyTitle">Fail-closed Safety</h3>
+              <p data-i18n="pillarSafety">
+                Unsupported identifiers and unsafe routes are rejected instead of guessed.
+              </p>
             </li>
           </ol>
         </div>
@@ -521,7 +578,8 @@
       </div>
     </footer>
 
-    <script defer src="./content.js?v=20260808-1"></script>
-    <script defer src="./app.js?v=20260808-5"></script>
+    <script defer src="./assets/vendor/chart.umd.min.js"></script>
+    <script defer src="./content.js?v=20260808-2"></script>
+    <script defer src="./app.js?v=20260808-6"></script>
   </body>
 </html>

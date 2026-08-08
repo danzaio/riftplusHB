@@ -1,11 +1,50 @@
 (function () {
   "use strict";
 
-  const content = window.RIFTREBORN_CONTENT;
+  const content = window.RIFTPLUS_CONTENT;
 
   if (!content) {
     throw new Error("RiftPlus content failed to load.");
   }
+
+  const predictionCases = {
+    accepted: {
+      verdict: "accepted",
+      status: "CAST FIRED",
+      eventFrame: 11,
+      window: [30, 34, 38, 42, 47, 53, 60, 68, 74, 80, 84, 86, 86, 86, 85, 84, 83, 82, 80, 78, 76],
+      stats: { hitchance: "86%", gate: "PASSED", trace: "STABLE" },
+      casts: [
+        { time: "14:02", spell: "Samira Q · 042", verdict: "HIT" },
+        { time: "13:58", spell: "Samira Q · 041", verdict: "HIT" },
+        { time: "13:51", spell: "Samira Q · 040", verdict: "HIT" },
+      ],
+    },
+    rejected: {
+      verdict: "rejected",
+      status: "CAST BLOCKED",
+      eventFrame: 9,
+      window: [30, 34, 38, 42, 41, 40, 39, 38, 37, 36, 35, 34, 34, 33, 33, 32, 32, 31, 31, 30, 30],
+      stats: { hitchance: "42%", gate: "BLOCKED", trace: "STABLE" },
+      casts: [
+        { time: "14:05", spell: "Samira Q · 043", verdict: "BLOCKED" },
+        { time: "14:02", spell: "Samira Q · 042", verdict: "HIT" },
+        { time: "13:58", spell: "Samira Q · 041", verdict: "HIT" },
+      ],
+    },
+    trace: {
+      verdict: "trace",
+      status: "EVADE TRACE",
+      eventFrame: 19,
+      window: [30, 35, 41, 47, 54, 62, 70, 78, 84, 88, 86, 72, 58, 44, 38, 42, 48, 55, 62, 70, 78],
+      stats: { hitchance: "78%", gate: "PASSED", trace: "UNSTABLE" },
+      casts: [
+        { time: "14:11", spell: "Samira Q · 046", verdict: "HIT" },
+        { time: "14:08", spell: "Samira Q · 045", verdict: "TRACE" },
+        { time: "14:05", spell: "Samira Q · 043", verdict: "BLOCKED" },
+      ],
+    },
+  };
 
   function clampHorizontalScroll() {
     if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
@@ -63,6 +102,15 @@
     communityFormMessage: document.querySelector("[data-community-form-message]"),
     communityList: document.querySelector("[data-community-list]"),
     scrollProgress: document.querySelector("[data-scroll-progress]"),
+    heroRelease: document.querySelector("[data-hero-release]"),
+    predictionPanel: document.querySelector("[data-prediction-panel]"),
+    predictionStatus: document.querySelector("[data-case-status]"),
+    predictionStats: Array.from(document.querySelectorAll("[data-stat]")),
+    castLog: document.querySelector("[data-cast-log]"),
+    predictionChartCanvas: document.querySelector("[data-prediction-chart]"),
+    menuToggle: document.querySelector("[data-menu-toggle]"),
+    menuDrawer: document.querySelector(".client-drawer"),
+    menuBackdrop: document.querySelector(".client-backdrop"),
   };
 
   const params = new URLSearchParams(window.location.search);
@@ -76,7 +124,11 @@
     transitionTimer: 0,
     scrollFrame: 0,
     community: readCommunityState(),
+    predictionCase: "accepted",
   };
+
+  let predictionChart = null;
+  let predictionCaseButtons = [];
 
   const communitySeeds = [
     { id: "samira-q-flash-window", champion: "samira", ability: "q", copyKey: "communityProposalSamiraQ", votes: 31, threshold: 40 },
@@ -230,6 +282,10 @@
     dom.controlCount.textContent = String(champion.controlCount);
     dom.menuSource.textContent = champion.menuSource;
 
+    if (dom.heroRelease) {
+      dom.heroRelease.textContent = `${champion.release} ${champion.order} · ${copy.displayName.toUpperCase()}`;
+    }
+
     renderAbilityTabs();
     renderAbility();
     renderCommunityFeatureOptions();
@@ -302,6 +358,13 @@
     });
     dom.systemList.textContent = "";
     dom.systemList.appendChild(fragment);
+
+    updateAbilityScrollCue();
+  }
+
+  function updateAbilityScrollCue() {
+    if (!dom.abilityPanel) return;
+    dom.abilityPanel.classList.toggle("is-scrollable", dom.abilityPanel.scrollHeight > dom.abilityPanel.clientHeight + 8);
   }
 
   function renderCommunityFeatureOptions() {
@@ -487,6 +550,189 @@
     state.scrollFrame = window.requestAnimationFrame(updateScrollProgress);
   }
 
+  function renderCastLog(caseData) {
+    if (!dom.castLog) return;
+    dom.castLog.textContent = "";
+    const fragment = document.createDocumentFragment();
+    caseData.casts.forEach((cast) => {
+      const row = document.createElement("li");
+      const time = document.createElement("span");
+      time.className = "cast-log__time";
+      time.textContent = cast.time;
+      const spell = document.createElement("span");
+      spell.className = "cast-log__spell";
+      spell.textContent = cast.spell;
+      const verdict = document.createElement("span");
+      verdict.className = `cast-log__verdict is-${cast.verdict === "HIT" ? "hit" : cast.verdict === "BLOCKED" ? "blocked" : "trace"}`;
+      verdict.textContent = cast.verdict;
+      row.append(time, spell, verdict);
+      fragment.appendChild(row);
+    });
+    dom.castLog.appendChild(fragment);
+  }
+
+  function selectPredictionCase(caseId) {
+    const caseData = predictionCases[caseId];
+    if (!caseData) return;
+    state.predictionCase = caseId;
+
+    if (dom.predictionPanel) dom.predictionPanel.dataset.verdict = caseData.verdict;
+    if (dom.predictionStatus) dom.predictionStatus.textContent = caseData.status;
+
+    predictionCaseButtons.forEach((button) => {
+      const active = button.dataset.predictionCase === caseId;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+
+    dom.predictionStats.forEach((stat) => {
+      const value = caseData.stats[stat.dataset.stat];
+      if (typeof value === "string") stat.textContent = value;
+    });
+
+    renderCastLog(caseData);
+
+    if (predictionChart) {
+      predictionChart.data.datasets[0].data = caseData.window;
+      predictionChart.data.datasets[2].data = [{ x: caseData.eventFrame, y: caseData.window[caseData.eventFrame] }];
+      predictionChart.update();
+    }
+  }
+
+  function initPredictionChart() {
+    const canvas = dom.predictionChartCanvas;
+    if (!canvas || !window.Chart) return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const initial = predictionCases[state.predictionCase];
+
+    predictionChart = new window.Chart(canvas.getContext("2d"), {
+      type: "line",
+      data: {
+        labels: initial.window.map((_value, index) => `t${index}`),
+        datasets: [
+          {
+            label: "HITCHANCE",
+            data: initial.window,
+            borderColor: "rgba(214, 180, 91, 0.9)",
+            backgroundColor: "rgba(214, 180, 91, 0.12)",
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            pointHitRadius: 12,
+            tension: 0.35,
+            fill: true,
+          },
+          {
+            label: "GATE 42%",
+            data: initial.window.map(() => 42),
+            borderColor: "rgba(217, 81, 78, 0.8)",
+            borderWidth: 1,
+            borderDash: [5, 5],
+            pointRadius: 0,
+          },
+          {
+            type: "scatter",
+            label: "EVENT",
+            data: [{ x: initial.eventFrame, y: initial.window[initial.eventFrame] }],
+            pointBackgroundColor: "#0ac8b9",
+            pointBorderColor: "#d6b45b",
+            pointBorderWidth: 1.5,
+            pointRadius: 5,
+            pointHoverRadius: 6,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: prefersReducedMotion ? false : { duration: 650, easing: "easeOutQuart" },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: "rgba(3, 11, 18, 0.95)",
+            borderColor: "rgba(200, 155, 60, 0.4)",
+            borderWidth: 1,
+            titleColor: "#d6b45b",
+            bodyColor: "#e9e4d8",
+            displayColors: false,
+            callbacks: {
+              label: (item) => (item.dataset.label === "GATE 42%" ? "gate threshold 42%" : `hitchance ${item.parsed.y}%`),
+            },
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: "rgba(200, 155, 60, 0.07)" },
+            ticks: {
+              color: "rgba(233, 228, 216, 0.45)",
+              font: { family: "SFMono-Regular, Consolas, monospace", size: 10 },
+              maxTicksLimit: 8,
+            },
+            title: {
+              display: true,
+              text: "FRAME",
+              color: "rgba(200, 155, 60, 0.7)",
+              font: { family: "SFMono-Regular, Consolas, monospace", size: 9 },
+            },
+          },
+          y: {
+            min: 20,
+            max: 100,
+            grid: { color: "rgba(200, 155, 60, 0.07)" },
+            ticks: {
+              color: "rgba(233, 228, 216, 0.45)",
+              font: { family: "SFMono-Regular, Consolas, monospace", size: 10 },
+              callback: (value) => `${value}%`,
+            },
+            title: {
+              display: true,
+              text: "HITCHANCE",
+              color: "rgba(200, 155, 60, 0.7)",
+              font: { family: "SFMono-Regular, Consolas, monospace", size: 9 },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  function initPredictionCases() {
+    if (!dom.predictionPanel) return;
+    predictionCaseButtons = Array.from(document.querySelectorAll("[data-prediction-case]"));
+    predictionCaseButtons.forEach((button) => {
+      button.addEventListener("click", () => selectPredictionCase(button.dataset.predictionCase));
+    });
+    renderCastLog(predictionCases[state.predictionCase]);
+    initPredictionChart();
+  }
+
+  function initMobileMenu() {
+    const toggle = dom.menuToggle;
+    const drawer = dom.menuDrawer;
+    const backdrop = dom.menuBackdrop;
+    if (!toggle || !drawer) return;
+
+    const setMenu = (open) => {
+      drawer.classList.toggle("is-open", open);
+      backdrop?.classList.toggle("is-open", open);
+      toggle.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      document.documentElement.classList.toggle("is-menu-open", open);
+      if (open) drawer.querySelector("a")?.focus();
+      else toggle.focus();
+    };
+
+    toggle.addEventListener("click", () => setMenu(!drawer.classList.contains("is-open")));
+    backdrop?.addEventListener("click", () => setMenu(false));
+    drawer.querySelectorAll("[data-menu-link]").forEach((link) => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && drawer.classList.contains("is-open")) setMenu(false);
+    });
+  }
+
   function observeSections() {
     if (!("IntersectionObserver" in window)) return;
     const links = Array.from(document.querySelectorAll(".client-nav a"));
@@ -506,9 +752,12 @@
   }
 
   function observeReveals() {
-    if (!("IntersectionObserver" in window)) return;
     const targets = Array.from(document.querySelectorAll("[data-reveal]"));
     if (!targets.length) return;
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((target) => target.classList.add("is-inview"));
+      return;
+    }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -521,9 +770,12 @@
   }
 
   function observePredictionReveal() {
-    if (!("IntersectionObserver" in window)) return;
     const asset = document.querySelector(".prediction-asset");
     if (!asset) return;
+    if (!("IntersectionObserver" in window)) {
+      asset.classList.add("is-inview");
+      return;
+    }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -562,6 +814,7 @@
 
   window.addEventListener("scroll", requestScrollProgress, { passive: true });
   window.addEventListener("resize", requestScrollProgress, { passive: true });
+  window.addEventListener("resize", updateAbilityScrollCue);
 
   applyTranslations();
   renderChampion({ animate: false });
@@ -569,4 +822,6 @@
   observeSections();
   observeReveals();
   observePredictionReveal();
+  initPredictionCases();
+  initMobileMenu();
 })();

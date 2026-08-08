@@ -11,7 +11,7 @@ const html = readFileSync(resolve(root, "hanbot/index.html"), "utf8");
 const contentSource = readFileSync(resolve(root, "hanbot/content.js"), "utf8");
 const context = vm.createContext({ window: {} });
 vm.runInContext(contentSource, context, { filename: "content.js" });
-const content = context.window.RIFTREBORN_CONTENT;
+const content = context.window.RIFTPLUS_CONTENT;
 
 const locales = ["en-US", "pt-BR", "zh-CN", "de-DE", "tr-TR", "pl-PL"];
 const championIds = ["samira", "graves", "ezreal", "jinx"];

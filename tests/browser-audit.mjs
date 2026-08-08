@@ -259,7 +259,7 @@ async function waitForReady(cdp) {
   while (Date.now() < deadline) {
     const ready = await evaluate(cdp, () => ({
       state: document.readyState,
-      content: Boolean(window.RIFTREBORN_CONTENT),
+      content: Boolean(window.RIFTPLUS_CONTENT),
       tabs: document.querySelectorAll("[data-ability-select]").length,
       fonts: document.fonts?.status,
     }));
