@@ -48,7 +48,7 @@
       href="./assets/fonts/spiegel-regular.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="./styles.css?v=20260808-1" />
+    <link rel="stylesheet" href="./styles.css?v=20260808-3" />
     <title>RiftPlus | Hanbot Champion AIO</title>
     <script>
       document.documentElement.classList.add("js");
@@ -289,9 +289,61 @@
           </div>
           <figure class="prediction-asset">
             <div class="prediction-asset__frame" role="img" data-i18n-aria="predictionAssetAria">
-              <span class="prediction-asset__label">RIFTPRED · PREDICTION PANEL</span>
+              <div class="prediction-asset__chrome">
+                <span class="prediction-asset__label">RIFTPRED · PREDICTION PANEL</span>
+              </div>
+              <div class="prediction-scene" aria-hidden="true">
+                <span class="prediction-scene__grid"></span>
+                <span class="prediction-scene__caster"></span>
+                <span class="prediction-scene__trace"></span>
+                <span class="prediction-scene__ghost prediction-scene__ghost--1"></span>
+                <span class="prediction-scene__ghost prediction-scene__ghost--2"></span>
+                <span class="prediction-scene__ghost prediction-scene__ghost--3"></span>
+                <span class="prediction-scene__impact"></span>
+              </div>
+              <div class="prediction-panel-card" aria-hidden="true">
+                <div class="prediction-panel-card__header">
+                  <span class="prediction-panel-card__title">ADAPTIVE DATA PANEL</span>
+                  <span class="prediction-panel-card__status"><span class="prediction-panel-card__dot"></span>ACTIVE</span>
+                </div>
+                <dl class="prediction-panel-card__rows">
+                  <div class="prediction-panel-card__row">
+                    <dt>TARGET</dt>
+                    <dd>GRAVES</dd>
+                  </div>
+                  <div class="prediction-panel-card__row">
+                    <dt>HITCHANCE</dt>
+                    <dd>HIGH ≥ ACCEPTED</dd>
+                  </div>
+                  <div class="prediction-panel-card__row">
+                    <dt>TRACE</dt>
+                    <dd>EVADE-SAFE</dd>
+                  </div>
+                  <div class="prediction-panel-card__row">
+                    <dt>GATE</dt>
+                    <dd>FAIL-CLOSED</dd>
+                  </div>
+                  <div class="prediction-panel-card__row">
+                    <dt>CONFIRMED HITS</dt>
+                    <dd>LOGGED</dd>
+                  </div>
+                </dl>
+              </div>
             </div>
-            <!-- TODO: replace placeholder with a real RiftPred panel screenshot (1215 x 717) -->
+            <figcaption class="prediction-benefits">
+              <div class="prediction-benefit">
+                <h3 data-i18n="predictionBenefit1Label">ADAPTIVE PROFILER</h3>
+                <p data-i18n="predictionBenefit1Body">Reads the enemy&rsquo;s movement and tightens hit chance as the match accelerates.</p>
+              </div>
+              <div class="prediction-benefit">
+                <h3 data-i18n="predictionBenefit2Label">VERIFIED CASTS</h3>
+                <p data-i18n="predictionBenefit2Body">Spells fire only after a validated hitchance window.</p>
+              </div>
+              <div class="prediction-benefit">
+                <h3 data-i18n="predictionBenefit3Label">ONE ENGINE · EVERY RELEASE</h3>
+                <p data-i18n="predictionBenefit3Body">The same prediction contract runs under all four champions.</p>
+              </div>
+            </figcaption>
           </figure>
         </div>
       </section>
@@ -470,6 +522,6 @@
     </footer>
 
     <script defer src="./content.js?v=20260808-1"></script>
-    <script defer src="./app.js?v=20260808-1"></script>
+    <script defer src="./app.js?v=20260808-3"></script>
   </body>
 </html>

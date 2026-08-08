@@ -505,6 +505,21 @@
     });
   }
 
+  function observePredictionReveal() {
+    if (!("IntersectionObserver" in window)) return;
+    const asset = document.querySelector(".prediction-asset");
+    if (!asset) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          asset.classList.add("is-inview");
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.15 });
+    observer.observe(asset);
+  }
+
   dom.championSelectors.forEach((button) => {
     button.addEventListener("click", () => selectChampion(button.dataset.championSelect, true));
   });
@@ -537,4 +552,5 @@
   renderChampion({ animate: false });
   updateScrollProgress();
   observeSections();
+  observePredictionReveal();
 })();
