@@ -14,20 +14,21 @@ vm.runInContext(contentSource, context, { filename: "content.js" });
 const content = context.window.RIFTREBORN_CONTENT;
 
 const locales = ["en-US", "pt-BR", "zh-CN", "de-DE", "tr-TR", "pl-PL"];
-const championIds = ["samira", "graves", "ezreal"];
+const championIds = ["samira", "graves", "ezreal", "jinx"];
 const abilityIds = ["passive", "q", "w", "e", "r", "utility"];
 
-test("publishes only the completed Samira, Graves, and Ezreal releases", () => {
+test("publishes only the completed Samira, Graves, Ezreal, and Jinx releases", () => {
   assert.deepEqual(Object.keys(content.champions), championIds);
   assert.equal(content.champions.samira.release, "RELEASE");
   assert.equal(content.champions.graves.release, "RELEASE");
   assert.equal(content.champions.samira.controlCount, 112);
   assert.equal(content.champions.graves.controlCount, 144);
   assert.equal(content.champions.ezreal.controlCount, 121);
+  assert.equal(content.champions.jinx.controlCount, 108);
   assert.deepEqual(Array.from(content.abilityOrder), abilityIds);
 
   const publicSource = `${html}\n${contentSource}`.toLowerCase();
-  for (const unpublished of ["irelia", "jinx", "pyke", "yasuo"]) {
+  for (const unpublished of ["irelia", "pyke", "yasuo"]) {
     assert.equal(publicSource.includes(unpublished), false, `${unpublished} must not appear in the release page`);
   }
 });
@@ -54,31 +55,37 @@ test("uses the official localized Data Dragon ability names", () => {
       samira: ["Daredevil Impulse", "Flair", "Blade Whirl", "Wild Rush", "Inferno Trigger"],
       graves: ["New Destiny", "End of the Line", "Smoke Screen", "Quickdraw", "Collateral Damage"],
       ezreal: ["Rising Spell Force", "Mystic Shot", "Essence Flux", "Arcane Shift", "Trueshot Barrage"],
+      jinx: ["Get Excited!", "Switcheroo!", "Zap!", "Flame Chompers!", "Super Mega Death Rocket!"],
     },
     "pt-BR": {
       samira: ["Impulso Audacioso", "Talento Natural", "Voragem Afiada", "Ímpeto Indomável", "Gatilho Infernal"],
       graves: ["Nova Destino", "Fim da Linha", "Cortina de Fumaça", "Saque Rápido", "Efeito Colateral"],
       ezreal: ["Feitiço do Poder Crescente", "Disparo Místico", "Fluxo Essencial", "Translocação Arcana", "Barragem Incendiária"],
+      jinx: ["Anime-se!", "Trocando!", "Zap!", "Mordidinha Flamejante!", "Super Mega Míssil da Morte!"],
     },
     "zh-CN": {
       samira: ["悍勇本色", "交火", "锋旋", "狂飙", "炼狱扳机"],
       graves: ["新命运", "穷途末路", "烟幕弹", "快速拔枪", "终极爆弹"],
       ezreal: ["咒能高涨", "秘术射击", "精华跃动", "奥术跃迁", "精准弹幕"],
+      jinx: ["罪恶快感", "枪炮交响曲！", "震荡电磁波！", "嚼火者手雷！", "超究极死神飞弹！"],
     },
     "de-DE": {
       samira: ["Draufgängerin", "Flair", "Klingenwirbel", "Ungezügelter Rausch", "Infernaler Abzug"],
       graves: ["Destiny Deluxe", "Endstation", "Nebelwand", "Schnelles Ziehen", "Kollateralschaden"],
       ezreal: ["Erhöhte Zaubermacht", "Mystischer Schuss", "Essenzflux", "Arkaner Sprung", "Energietrommelfeuer"],
+      jinx: ["Ich werd' verrückt!", "Waffenwechsel!", "Brzl!", "Flammenfresser!", "Super-Mega-Todesrakete!"],
     },
     "tr-TR": {
       samira: ["Deliduman", "Gösteriş", "Kılıç Girdabı", "Heyecan Dorukta", "Cehennem Tetiği"],
       graves: ["Yeni Kader", "Yolun Sonu", "Sis Perdesi", "Hızlı Tetik", "Parça Tesiri"],
       ezreal: ["Büyü Gücü Yükselişi", "Gizemli Atış", "Özüt Akışı", "Sihir Geçişi", "İsabet Dalgası"],
+      jinx: ["Ay Çok Heyecanlı!", "Değiştir!", "Cızzt!", "Patlangaç!", "Manyak Güçlü Ölüm Roketi!"],
     },
     "pl-PL": {
       samira: ["Chojracki Impuls", "Smykałka", "Wirujące Ostrze", "Dziki Pęd", "Piekielny Spust"],
       graves: ["Nowy Los", "To Koniec!", "Zasłona Dymna", "Rozpęd", "Obrażenia Przypadkowe"],
       ezreal: ["Wzmacniająca Siła Czarów", "Mistyczny Strzał", "Strumień Esencji", "Magiczne Przejście", "Celna Salwa"],
+      jinx: ["Zabawmy się!", "Zmienianko!", "Bzzzyt!", "Ogniste Gryzaki!", "SuperMegaRakieta Śmierci!"],
     },
   };
 
@@ -98,7 +105,7 @@ test("keeps Hanbot vocabulary and menu controls in English", () => {
 });
 
 test("resolves every local visual asset referenced by the release data", () => {
-  const assets = ["./assets/meta/riftreborn-mark.svg"];
+  const assets = ["./assets/meta/riftplus-mark.svg"];
   for (const champion of Object.values(content.champions)) {
     assets.push(champion.image, champion.portrait);
     for (const ability of Object.values(champion.abilities)) {
@@ -131,12 +138,18 @@ test("matches the validated AIO ref and public control counts", { skip: !aioRoot
     samira: ["Q Flash", "Fast S", "Insanity S", "Block Evade Skillshots", "Require Evade-safe Endpoint", "Attack Hard CC Targets", "Enable Killsteal"],
     graves: ["Flash Combo", "Reverse E + R", "Quick Q during E Dash", "Terrain Policy", "Require Return Hit near Wall", "Anti-Flash", "Enable Finish Routes"],
     ezreal: ["Auto Q", "Q without Collision", "Wait for W Mark", "Calculate Epic Monster Collision", "Anti-Skillshot", "Steal Epic Monsters", "Keep Passive with Q"],
+    jinx: ["Switch in Combo", "Weapon Policy", "Fishbones for Champion Splash", "Combat Placement", "Anti-Dash / Gapcloser", "Use W + R Lethal Sequence", "Hold Fishbones"],
   };
 
   for (const championId of championIds) {
     const champion = content.champions[championId];
     const source = execFileSync("git", ["-C", aioRoot, "show", `${aioRef}:${champion.menuSource}`], { encoding: "utf8" });
-    const dynamicControls = championId === "ezreal" ? Array.from(source.matchAll(/root\.q\.enemies:boolean\(/g)).length : 0;
+    const dynamicControls =
+      championId === "ezreal"
+        ? Array.from(source.matchAll(/root\.q\.enemies:boolean\(/g)).length
+        : championId === "jinx"
+          ? Array.from(source.matchAll(/root\.e\.enemies:boolean\(/g)).length + Array.from(source.matchAll(/root\.r\.enemies:dropdown\(/g)).length
+          : 0;
     const count = Array.from(source.matchAll(/:(boolean|slider|dropdown|keybind|color)\(/g)).length - dynamicControls;
     assert.equal(count, champion.controlCount, `${championId} control count differs from the menu`);
     for (const label of expectedLabels[championId]) assert.ok(source.includes(`"${label}"`), `${championId} menu is missing ${label}`);

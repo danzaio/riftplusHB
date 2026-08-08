@@ -6,33 +6,33 @@
     <meta name="theme-color" content="#06111b" />
     <meta
       name="description"
-      content="RiftReborn is a champion-specific Hanbot AIO for Samira, Graves, and Ezreal, with configurable combat logic, safety checks, and readable tuning."
+      content="RiftPlus is a champion-specific Hanbot AIO for Samira, Graves, Ezreal, and Jinx, with configurable combat logic, one shared Prediction engine, safety checks, and readable tuning."
     />
-    <meta property="og:title" content="RiftReborn | Hanbot Champion AIO" />
+    <meta property="og:title" content="RiftPlus | Hanbot Champion AIO" />
     <meta
       property="og:description"
-      content="Explore the Samira, Graves, and Ezreal releases, their spell systems, safety rules, and configurable controls."
+      content="Explore the Samira, Graves, Ezreal, and Jinx releases, their spell systems, safety rules, and configurable controls."
     />
     <meta property="og:url" content="https://danzaio.github.io/riftplus/hanbot/" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="RiftReborn" />
+    <meta property="og:site_name" content="RiftPlus" />
     <meta property="og:locale" content="en_US" />
     <meta
       property="og:image"
-      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftreborn-social.jpg"
+      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftplus-social.jpg"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="RiftReborn | Hanbot Champion AIO" />
+    <meta name="twitter:title" content="RiftPlus | Hanbot Champion AIO" />
     <meta
       name="twitter:description"
-      content="Explore the Samira, Graves, and Ezreal releases, their spell systems, safety rules, and configurable controls."
+      content="Explore the Samira, Graves, Ezreal, and Jinx releases, their spell systems, safety rules, and configurable controls."
     />
     <meta
       name="twitter:image"
-      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftreborn-social.jpg"
+      content="https://danzaio.github.io/riftplus/hanbot/assets/meta/riftplus-social.jpg"
     />
     <link rel="canonical" href="https://danzaio.github.io/riftplus/hanbot/" />
-    <link rel="icon" type="image/svg+xml" href="./assets/meta/riftreborn-mark.svg" />
+    <link rel="icon" type="image/svg+xml" href="./assets/meta/riftplus-mark.svg" />
     <link rel="preload" as="image" href="./assets/champions/samira-splash.jpg" fetchpriority="high" />
     <link
       rel="preload"
@@ -48,8 +48,8 @@
       href="./assets/fonts/spiegel-regular.woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="./styles.css?v=20260805-4" />
-    <title>RiftReborn | Hanbot Champion AIO</title>
+    <link rel="stylesheet" href="./styles.css?v=20260808-1" />
+    <title>RiftPlus | Hanbot Champion AIO</title>
     <script>
       document.documentElement.classList.add("js");
     </script>
@@ -60,13 +60,14 @@
     <header class="client-bar" data-client-bar>
       <div class="client-bar__progress" aria-hidden="true"><span data-scroll-progress></span></div>
       <div class="client-bar__inner">
-        <a class="brand" href="#top" aria-label="RiftReborn home" data-i18n-aria="brandHome">
-          <img class="brand__mark" src="./assets/meta/riftreborn-mark.svg" alt="" />
-          <span class="brand__name">RIFTREBORN</span>
+        <a class="brand" href="#top" aria-label="RiftPlus home" data-i18n-aria="brandHome">
+          <img class="brand__mark" src="./assets/meta/riftplus-mark.svg" alt="" />
+          <span class="brand__name">RIFTPLUS</span>
         </a>
 
         <nav class="client-nav" aria-label="Primary navigation" data-i18n-aria="primaryNavigation">
           <a href="#releases" data-i18n="navReleases">Releases</a>
+          <a href="#prediction" data-i18n="navPrediction">Prediction</a>
           <a href="#community" data-i18n="navCommunity">Community</a>
           <a href="#system" data-i18n="navSystem">System</a>
         </nav>
@@ -120,6 +121,13 @@
             loading="eager"
             data-hero-art="ezreal"
           />
+          <img
+            class="hero__art"
+            src="./assets/champions/jinx-splash.jpg"
+            alt=""
+            loading="eager"
+            data-hero-art="jinx"
+          />
           <div class="hero__scrim"></div>
         </div>
 
@@ -127,9 +135,9 @@
         <div class="hero__inner page-shell">
           <div class="hero__copy">
             <p class="eyebrow" data-i18n="heroEyebrow">HANBOT CHAMPION AIO</p>
-            <h1 id="hero-title">RIFTREBORN</h1>
+            <h1 id="hero-title">RIFTPLUS</h1>
             <p class="hero__lead" data-i18n="heroLead">
-              Champion-specific scripts rebuilt for deliberate control, safer decisions, and readable tuning.
+              Champion-specific scripts on one shared Prediction engine, built for deliberate control and safer decisions.
             </p>
             <div class="hero__actions">
               <a class="action action--primary" href="#releases" data-i18n="heroPrimary">Explore releases</a>
@@ -159,6 +167,10 @@
               <img src="./assets/champions/ezreal.png" alt="" />
               <span><strong>EZREAL</strong><small>RELEASE 03</small></span>
             </button>
+            <button class="release-chip" type="button" data-champion-select="jinx" aria-pressed="false">
+              <img src="./assets/champions/jinx.png" alt="" />
+              <span><strong>JINX</strong><small>RELEASE 04</small></span>
+            </button>
           </div>
         </div>
       </section>
@@ -166,11 +178,10 @@
       <section class="release-section" id="releases" aria-labelledby="release-title">
         <div class="section-heading page-shell">
           <div>
-            <p class="eyebrow" data-i18n="releaseEyebrow">CHAMPION PROFILES</p>
-            <h2 id="release-title" data-i18n="releaseTitle">Three releases. Three distinct combat systems.</h2>
+            <h2 id="release-title" data-i18n="releaseTitle">Four releases. Four distinct combat systems.</h2>
           </div>
           <p data-i18n="releaseBody">
-            Every profile keeps its own spell logic, priorities, safety checks, and menu surface.
+            Every profile keeps its own spell logic, priorities, safety checks, and menu surface on one shared Prediction engine.
           </p>
         </div>
 
@@ -192,9 +203,14 @@
               <img src="./assets/champions/ezreal.png" alt="" />
               <span><strong>EZREAL</strong><small>RELEASE</small></span>
             </button>
+            <button class="roster-entry" type="button" data-champion-select="jinx" aria-pressed="false">
+              <span class="roster-entry__number">04</span>
+              <img src="./assets/champions/jinx.png" alt="" />
+              <span><strong>JINX</strong><small>RELEASE</small></span>
+            </button>
             <div class="profile-roster__footer">
               <span data-i18n="rosterCountLabel">ACTIVE RELEASES</span>
-              <strong>03</strong>
+              <strong>04</strong>
             </div>
           </aside>
 
@@ -221,7 +237,6 @@
 
           <div class="ability-console">
             <div class="ability-console__heading">
-              <p class="eyebrow" data-i18n="profileEyebrow">CHAMPION SYSTEM</p>
               <p class="ability-console__intro" data-champion-intro>
                 Style-aware routes coordinate Q, W, E and R without flattening Samira into one fixed Combo.
               </p>
@@ -262,11 +277,29 @@
         </div>
       </section>
 
+      <section class="prediction-section" id="prediction" aria-labelledby="prediction-title">
+        <div class="prediction-section__inner page-shell">
+          <div class="prediction-heading">
+            <h2 id="prediction-title" data-i18n="predictionTitle">
+              One Prediction engine under every release.
+            </h2>
+            <p data-i18n="predictionBody">
+              Every spell decision runs through the same documented Prediction contract: hitchance, traces, and safety gates stay consistent across profiles.
+            </p>
+          </div>
+          <figure class="prediction-asset">
+            <div class="prediction-asset__frame" role="img" data-i18n-aria="predictionAssetAria">
+              <span class="prediction-asset__label">RIFTPRED · PREDICTION PANEL</span>
+            </div>
+            <!-- TODO: replace placeholder with a real RiftPred panel screenshot (1215 x 717) -->
+          </figure>
+        </div>
+      </section>
+
       <section class="community-section" id="community" aria-labelledby="community-title">
         <div class="community-section__inner page-shell">
           <div class="community-heading">
             <div>
-              <p class="eyebrow" data-i18n="communityEyebrow">BUILT BY PLAYERS</p>
               <h2 id="community-title" data-i18n="communityTitle">The AIO grows from the way you actually play.</h2>
             </div>
             <p data-i18n="communityBody">
@@ -307,7 +340,6 @@
 
           <div class="community-workspace">
             <form class="community-form" data-community-form>
-              <p class="eyebrow" data-i18n="communityFormEyebrow">YOUR INPUT</p>
               <h3 data-i18n="communityFormTitle">Suggest a change</h3>
               <p class="community-form__intro" data-i18n="communityFormBody">
                 Tell us where the current behavior misses your playstyle. Specific feedback gets reviewed faster.
@@ -319,6 +351,7 @@
                   <option value="samira">Samira</option>
                   <option value="graves">Graves</option>
                   <option value="ezreal">Ezreal</option>
+                  <option value="jinx">Jinx</option>
                 </select>
               </label>
 
@@ -350,7 +383,6 @@
             <section class="community-board" aria-labelledby="community-board-title">
               <div class="community-board__heading">
                 <div>
-                  <p class="eyebrow" data-i18n="communityQueueEyebrow">LIVE FEATURE BOARD</p>
                   <h3 id="community-board-title" data-i18n="communityQueueTitle">What players are shaping now</h3>
                 </div>
                 <p data-i18n="communityQueueBody">Vote on behavior, not vague promises. A request only moves forward when the community says yes.</p>
@@ -406,8 +438,7 @@
       <section class="discord-section" aria-labelledby="discord-title">
         <div class="discord-section__line" aria-hidden="true"><span></span></div>
         <div class="discord-section__inner page-shell">
-          <p class="eyebrow" data-i18n="discordEyebrow">RIFTREBORN // DISCORD</p>
-          <h2 id="discord-title" data-i18n="discordTitle">Meet all three releases in one place.</h2>
+          <h2 id="discord-title" data-i18n="discordTitle">Meet all four releases in one place.</h2>
           <p data-i18n="discordBody">
             Compare their systems, follow new releases, and continue the conversation in Discord.
           </p>
@@ -426,11 +457,11 @@
     <footer class="site-footer">
       <div class="site-footer__inner page-shell">
         <a class="brand brand--footer" href="#top">
-          <img class="brand__mark" src="./assets/meta/riftreborn-mark.svg" alt="" />
-          <span class="brand__name">RIFTREBORN</span>
+          <img class="brand__mark" src="./assets/meta/riftplus-mark.svg" alt="" />
+          <span class="brand__name">RIFTPLUS</span>
         </a>
         <p class="site-footer__legal" data-i18n="legalDisclaimer">
-          RiftReborn is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone
+          RiftPlus is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone
           officially involved in producing or managing Riot Games properties. Riot Games and all associated properties
           are trademarks or registered trademarks of Riot Games, Inc.
         </p>
@@ -438,7 +469,7 @@
       </div>
     </footer>
 
-    <script defer src="./content.js?v=20260804-1"></script>
-    <script defer src="./app.js?v=20260805-4"></script>
+    <script defer src="./content.js?v=20260808-1"></script>
+    <script defer src="./app.js?v=20260808-1"></script>
   </body>
 </html>

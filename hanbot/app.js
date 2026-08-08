@@ -4,7 +4,7 @@
   const content = window.RIFTREBORN_CONTENT;
 
   if (!content) {
-    throw new Error("RiftReborn content failed to load.");
+    throw new Error("RiftPlus content failed to load.");
   }
 
   function clampHorizontalScroll() {
@@ -83,6 +83,7 @@
     { id: "graves-e-wall-return", champion: "graves", ability: "e", copyKey: "communityProposalGravesE", votes: 42, threshold: 55 },
     { id: "ezreal-wq-collision", champion: "ezreal", ability: "w", copyKey: "communityProposalEzrealW", votes: 38, threshold: 50 },
     { id: "samira-w-threat-filter", champion: "samira", ability: "w", copyKey: "communityProposalSamiraW", votes: 18, threshold: 30 },
+    { id: "jinx-wr-lethal-sequence", champion: "jinx", ability: "r", copyKey: "communityProposalJinxQ", votes: 14, threshold: 30 },
   ];
 
   function readCommunityState() {
@@ -312,7 +313,7 @@
     content.abilityOrder.forEach((abilityId) => {
       const option = document.createElement("option");
       option.value = abilityId;
-      option.textContent = `${content.champions[championId].abilities[abilityId].key} — ${championCopy.abilities[abilityId]}`;
+      option.textContent = `${content.champions[championId].abilities[abilityId].key} · ${championCopy.abilities[abilityId]}`;
       dom.communityFeature.appendChild(option);
     });
     if (content.abilityOrder.includes(selected)) dom.communityFeature.value = selected;

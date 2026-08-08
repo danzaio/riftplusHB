@@ -570,7 +570,7 @@ select:focus-visible,
 .hero__release-index {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 230px));
+  grid-template-columns: repeat(4, minmax(0, 200px));
   justify-content: end;
   justify-self: end;
   gap: 1px;
@@ -1134,6 +1134,80 @@ select:focus-visible,
   border-top: 1px solid rgba(200, 155, 60, 0.2);
 }
 
+.prediction-section {
+  position: relative;
+  padding: 150px 0 165px;
+  overflow: hidden;
+  border-top: 1px solid rgba(200, 155, 60, 0.2);
+  background: var(--ink);
+}
+
+.prediction-section__inner {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.prediction-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  align-items: end;
+  gap: 80px;
+  margin-bottom: 66px;
+}
+
+.prediction-heading h2 {
+  max-width: 780px;
+  margin-bottom: 0;
+  font-size: 3.65rem;
+  line-height: 1.02;
+}
+
+.prediction-heading > p {
+  max-width: 520px;
+  margin-bottom: 4px;
+  color: var(--cream-muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+.prediction-asset {
+  position: relative;
+  margin: 0;
+}
+
+.prediction-asset__frame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1215 / 717;
+  border: 1px solid var(--gold-dim);
+  background:
+    linear-gradient(135deg, rgba(200, 155, 60, 0.07), rgba(200, 155, 60, 0.02) 46%, rgba(200, 155, 60, 0.06)),
+    var(--ink-panel);
+  box-shadow: 0 42px 90px rgba(0, 4, 8, 0.35);
+}
+
+.prediction-asset::before {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(200, 155, 60, 0.16);
+  content: "";
+  pointer-events: none;
+  transform: translate(14px, 14px);
+}
+
+.prediction-asset__label {
+  padding: 7px 12px;
+  border: 1px solid var(--gold-line);
+  background: rgba(3, 11, 18, 0.72);
+  color: var(--gold-bright);
+  font-family: Spiegel, Arial, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .community-section {
   position: relative;
   padding: 150px 0 165px;
@@ -1158,7 +1232,7 @@ select:focus-visible,
   right: -220px;
   width: 540px;
   height: 540px;
-  border: 1px solid rgba(10, 200, 185, 0.11);
+  border: 1px solid rgba(200, 155, 60, 0.11);
   content: "";
   transform: rotate(45deg);
 }
@@ -1750,7 +1824,8 @@ select:focus-visible,
     gap: 56px;
   }
 
-  .community-heading h2 {
+  .community-heading h2,
+  .prediction-heading h2 {
     font-size: 3.55rem;
   }
 
@@ -1868,8 +1943,19 @@ select:focus-visible,
     margin-bottom: 48px;
   }
 
-  .community-heading h2 {
+  .community-heading h2,
+  .prediction-heading h2 {
     font-size: 3.1rem;
+  }
+
+  .prediction-section {
+    padding: 112px 0 130px;
+  }
+
+  .prediction-heading {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    margin-bottom: 48px;
   }
 
   .community-flow {
@@ -2004,29 +2090,29 @@ select:focus-visible,
   }
 
   .hero__release-index {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     justify-self: stretch;
     width: 100%;
   }
 
   .release-chip {
-    grid-template-columns: 40px minmax(0, 1fr);
-    gap: 9px;
-    min-height: 62px;
-    padding: 8px 10px;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 6px;
+    min-height: 58px;
+    padding: 8px;
   }
 
   .release-chip img {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
 
   .release-chip strong {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
   }
 
   .release-chip small {
-    font-size: 0.52rem;
+    font-size: 0.5rem;
   }
 
   .release-section {
@@ -2055,7 +2141,7 @@ select:focus-visible,
 
   .profile-roster {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     border-right: 0;
     border-bottom: 1px solid var(--gold-line);
   }
@@ -2066,9 +2152,10 @@ select:focus-visible,
   }
 
   .roster-entry {
-    grid-template-columns: 40px minmax(0, 1fr);
-    min-height: 68px;
-    padding: 10px;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 6px;
+    min-height: 64px;
+    padding: 8px;
     border-right: 1px solid var(--line);
     border-bottom: 0;
   }
@@ -2086,8 +2173,12 @@ select:focus-visible,
   }
 
   .roster-entry img {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .roster-entry strong {
+    font-size: 0.7rem;
   }
 
   .champion-stage {
@@ -2171,12 +2262,22 @@ select:focus-visible,
     margin-bottom: 38px;
   }
 
-  .community-heading h2 {
+  .community-heading h2,
+  .prediction-heading h2 {
     font-size: 2.45rem;
   }
 
-  .community-heading > p {
+  .community-heading > p,
+  .prediction-heading > p {
     font-size: 0.96rem;
+  }
+
+  .prediction-section {
+    padding: 90px 0 108px;
+  }
+
+  .prediction-heading {
+    margin-bottom: 38px;
   }
 
   .community-flow {
@@ -2342,6 +2443,14 @@ select:focus-visible,
     padding: 7px;
   }
 
+  .hero__release-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profile-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .release-chip img {
     width: 34px;
     height: 34px;
@@ -2358,7 +2467,8 @@ select:focus-visible,
   .section-heading h2,
   .system-heading h2,
   .discord-section h2,
-  .community-heading h2 {
+  .community-heading h2,
+  .prediction-heading h2 {
     font-size: 2.05rem;
   }
 
