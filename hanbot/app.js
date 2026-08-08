@@ -12,8 +12,12 @@
       verdict: "accepted",
       status: "CAST FIRED",
       eventFrame: 11,
-      window: [30, 34, 38, 42, 47, 53, 60, 68, 74, 80, 84, 86, 86, 86, 85, 84, 83, 82, 80, 78, 76],
-      stats: { hitchance: "86%", gate: "PASSED", trace: "STABLE" },
+      eventType: "cast",
+      zone: { from: 10, to: 14, color: "#d6b45b", label: "CAST WINDOW" },
+      window: [75, 76, 78, 79, 81, 83, 85, 87, 89, 91, 92, 93, 93, 93, 92, 91, 90, 89, 88, 87, 86],
+      vel: [320, 318, 314, 309, 303, 296, 290, 285, 281, 278, 276, 275, 275, 276, 278, 281, 285, 290, 296, 303, 311],
+      samples: [76, 75, 79, 78, 82, 82, 84, 88, 88, 90, 93, 91, 94, 92, 93, 90, 91, 88, 89, 86, 87],
+      stats: { hitchance: "93%", gate: "PASSED", trace: "STABLE" },
       casts: [
         { time: "14:02", spell: "Samira Q · 042", verdict: "HIT" },
         { time: "13:58", spell: "Samira Q · 041", verdict: "HIT" },
@@ -23,9 +27,13 @@
     rejected: {
       verdict: "rejected",
       status: "CAST BLOCKED",
-      eventFrame: 9,
-      window: [30, 34, 38, 42, 41, 40, 39, 38, 37, 36, 35, 34, 34, 33, 33, 32, 32, 31, 31, 30, 30],
-      stats: { hitchance: "42%", gate: "BLOCKED", trace: "STABLE" },
+      eventFrame: 11,
+      eventType: "block",
+      zone: { from: 9, to: 13, color: "#d9514e", label: "GATE BREACH" },
+      window: [75, 76, 74, 71, 68, 64, 59, 55, 51, 48, 45, 42, 40, 38, 36, 35, 34, 34, 33, 32, 32],
+      vel: [320, 328, 344, 368, 400, 440, 488, 544, 608, 680, 760, 848, 944, 1048, 1160, 1280, 1408, 1544, 1688, 1840, 2000],
+      samples: [74, 77, 73, 72, 69, 63, 60, 54, 52, 47, 46, 41, 41, 37, 37, 34, 35, 33, 34, 31, 33],
+      stats: { hitchance: "38%", gate: "BLOCKED", trace: "DEGRADED" },
       casts: [
         { time: "14:05", spell: "Samira Q · 043", verdict: "BLOCKED" },
         { time: "14:02", spell: "Samira Q · 042", verdict: "HIT" },
@@ -36,8 +44,12 @@
       verdict: "trace",
       status: "EVADE TRACE",
       eventFrame: 19,
-      window: [30, 35, 41, 47, 54, 62, 70, 78, 84, 88, 86, 72, 58, 44, 38, 42, 48, 55, 62, 70, 78],
-      stats: { hitchance: "78%", gate: "PASSED", trace: "UNSTABLE" },
+      eventType: "hit",
+      zone: { from: 5, to: 10, color: "#0ac8b9", label: "EVADE WINDOW" },
+      window: [75, 78, 81, 85, 89, 92, 94, 93, 90, 86, 80, 73, 65, 58, 52, 47, 43, 48, 56, 63, 71],
+      vel: [320, 318, 315, 312, 310, 308, 306, 315, 340, 380, 435, 505, 590, 690, 805, 935, 1080, 940, 820, 720, 640],
+      samples: [77, 77, 80, 86, 88, 93, 93, 94, 89, 87, 79, 74, 64, 59, 51, 48, 42, 49, 55, 64, 70],
+      stats: { hitchance: "71%", gate: "PASSED", trace: "UNSTABLE" },
       casts: [
         { time: "14:11", spell: "Samira Q · 046", verdict: "HIT" },
         { time: "14:08", spell: "Samira Q · 045", verdict: "TRACE" },
@@ -594,24 +606,69 @@
 
     if (predictionChart) {
       predictionChart.data.datasets[0].data = caseData.window;
-      predictionChart.data.datasets[2].data = [{ x: caseData.eventFrame, y: caseData.window[caseData.eventFrame] }];
+      predictionChart.data.datasets[3].data = caseData.vel;
+      predictionChart.data.datasets[4].data = caseData.samples;
+      predictionChart.data.datasets[6].data = [{ x: caseData.eventFrame, y: caseData.window[caseData.eventFrame] }];
+      predictionChart.data.datasets[6].pointStyle = caseData.eventType === "block" ? "crossRot" : caseData.eventType === "cast" ? "triangle" : "rectRot";
+      predictionChart.data.datasets[6].pointBackgroundColor = caseData.zone.color;
+      predictionChart.options.plugins.zone = caseData.zone;
       predictionChart.update();
     }
   }
+
+  const castZonePlugin = {
+    id: "castZone",
+    afterDatasetsDraw(chart, _args, pluginOptions) {
+      const { from, to, color, label } = pluginOptions || {};
+      if (from === undefined || to === undefined || to <= from) return;
+      const xScale = chart.scales.x;
+      const { top, bottom } = chart.chartArea;
+      const left = xScale.getPixelForValue(from);
+      const right = xScale.getPixelForValue(to);
+      const ctx = chart.ctx;
+      ctx.save();
+      ctx.globalAlpha = 0.06;
+      ctx.fillStyle = color;
+      ctx.fillRect(left, top, right - left, bottom - top);
+      ctx.restore();
+      ctx.save();
+      ctx.globalAlpha = 0.5;
+      ctx.strokeStyle = color;
+      ctx.setLineDash([3, 4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(left, top);
+      ctx.lineTo(left, bottom);
+      ctx.moveTo(right, top);
+      ctx.lineTo(right, bottom);
+      ctx.stroke();
+      ctx.restore();
+      ctx.save();
+      ctx.globalAlpha = 0.7;
+      ctx.fillStyle = color;
+      ctx.font = '9px "SFMono-Regular", Consolas, monospace';
+      ctx.letterSpacing = "0.08em";
+      ctx.textBaseline = "top";
+      ctx.fillText(label, left + 6, top + 8);
+      ctx.restore();
+    },
+  };
 
   function initPredictionChart() {
     const canvas = dom.predictionChartCanvas;
     if (!canvas || !window.Chart) return;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const initial = predictionCases[state.predictionCase];
+    const band = (value) => value + 4;
 
     predictionChart = new window.Chart(canvas.getContext("2d"), {
       type: "line",
+      plugins: [castZonePlugin],
       data: {
         labels: initial.window.map((_value, index) => `t${index}`),
         datasets: [
           {
-            label: "HITCHANCE",
+            label: "HIT CONFIDENCE",
             data: initial.window,
             borderColor: "rgba(214, 180, 91, 0.9)",
             backgroundColor: "rgba(214, 180, 91, 0.12)",
@@ -620,10 +677,44 @@
             pointHoverRadius: 4,
             pointHitRadius: 12,
             tension: 0.35,
-            fill: true,
+            fill: "origin",
           },
           {
-            label: "GATE 42%",
+            label: "BAND+",
+            data: initial.window.map((value) => band(value)),
+            borderWidth: 0,
+            pointRadius: 0,
+            fill: false,
+          },
+          {
+            label: "BAND-",
+            data: initial.window.map((value) => band(value) - 8),
+            borderWidth: 0,
+            pointRadius: 0,
+            backgroundColor: "rgba(214, 180, 91, 0.09)",
+            fill: 1,
+          },
+          {
+            label: "TARGET DRIFT",
+            yAxisID: "y2",
+            data: initial.vel,
+            borderColor: "rgba(10, 200, 185, 0.55)",
+            borderWidth: 1.2,
+            borderDash: [2, 4],
+            pointRadius: 0,
+            tension: 0.3,
+          },
+          {
+            label: "OBSERVATIONS",
+            data: initial.samples,
+            showLine: false,
+            pointRadius: 2.5,
+            pointHoverRadius: 5,
+            pointHitRadius: 10,
+            pointBackgroundColor: "rgba(10, 200, 185, 0.8)",
+          },
+          {
+            label: "GATE",
             data: initial.window.map(() => 42),
             borderColor: "rgba(217, 81, 78, 0.8)",
             borderWidth: 1,
@@ -634,11 +725,12 @@
             type: "scatter",
             label: "EVENT",
             data: [{ x: initial.eventFrame, y: initial.window[initial.eventFrame] }],
-            pointBackgroundColor: "#0ac8b9",
-            pointBorderColor: "#d6b45b",
+            pointStyle: "triangle",
+            pointBackgroundColor: initial.zone.color,
+            pointBorderColor: "rgba(233, 228, 216, 0.9)",
             pointBorderWidth: 1.5,
             pointRadius: 5,
-            pointHoverRadius: 6,
+            pointHoverRadius: 7,
           },
         ],
       },
@@ -648,6 +740,7 @@
         animation: prefersReducedMotion ? false : { duration: 650, easing: "easeOutQuart" },
         interaction: { mode: "index", intersect: false },
         plugins: {
+          zone: initial.zone,
           legend: { display: false },
           tooltip: {
             backgroundColor: "rgba(3, 11, 18, 0.95)",
@@ -656,8 +749,24 @@
             titleColor: "#d6b45b",
             bodyColor: "#e9e4d8",
             displayColors: false,
+            filter: (item) => item.dataset.label !== "BAND+" && item.dataset.label !== "BAND-",
             callbacks: {
-              label: (item) => (item.dataset.label === "GATE 42%" ? "gate threshold 42%" : `hitchance ${item.parsed.y}%`),
+              label: (item) => {
+                switch (item.dataset.label) {
+                  case "HIT CONFIDENCE":
+                    return `hit confidence ${item.parsed.y}%`;
+                  case "GATE":
+                    return "gate threshold 42%";
+                  case "TARGET DRIFT":
+                    return `target drift ${item.parsed.y} rel.`;
+                  case "OBSERVATIONS":
+                    return `observation ${item.parsed.y}%`;
+                  case "EVENT":
+                    return "verdict point";
+                  default:
+                    return `${item.dataset.label} ${item.parsed.y}`;
+                }
+              },
             },
           },
         },
@@ -687,8 +796,28 @@
             },
             title: {
               display: true,
-              text: "HITCHANCE",
+              text: "HIT CONFIDENCE (REL.)",
               color: "rgba(200, 155, 60, 0.7)",
+              font: { family: "SFMono-Regular, Consolas, monospace", size: 9 },
+            },
+          },
+          y2: {
+            position: "right",
+            min: 250,
+            max: 2100,
+            grid: { drawOnChartArea: false },
+            afterBuildTicks: (scale) => {
+              scale.ticks = [250, 500, 1000, 1500, 2000].map((value) => ({ value }));
+            },
+            ticks: {
+              color: "rgba(10, 200, 185, 0.5)",
+              font: { family: "SFMono-Regular, Consolas, monospace", size: 10 },
+              callback: (value) => (value >= 1000 ? `${(value / 1000).toFixed(1)}k` : value),
+            },
+            title: {
+              display: true,
+              text: "TARGET DRIFT (REL.)",
+              color: "rgba(10, 200, 185, 0.55)",
               font: { family: "SFMono-Regular, Consolas, monospace", size: 9 },
             },
           },
