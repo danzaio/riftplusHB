@@ -438,7 +438,7 @@ select:focus-visible,
 
 .hero {
   position: relative;
-  min-height: max(600px, min(760px, calc(100svh - 180px)));
+  min-height: max(560px, min(680px, calc(100svh - 160px)));
   overflow: hidden;
   isolation: isolate;
   border-bottom: 1px solid var(--gold-line);
@@ -532,8 +532,8 @@ select:focus-visible,
   grid-template-rows: 1fr auto;
   min-width: 0;
   min-height: inherit;
-  padding-top: 132px;
-  padding-bottom: 38px;
+  padding-top: 108px;
+  padding-bottom: 30px;
 }
 
 .hero__copy {
@@ -543,8 +543,8 @@ select:focus-visible,
 }
 
 .hero h1 {
-  margin-bottom: 28px;
-  font-size: 6rem;
+  margin-bottom: 22px;
+  font-size: 5.2rem;
   line-height: 0.84;
   text-transform: uppercase;
   text-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
@@ -585,9 +585,770 @@ select:focus-visible,
   transform: rotate(45deg);
 }
 
+.timing-section {
+  position: relative;
+  padding: 108px 0 128px;
+  overflow: hidden;
+  border-top: 1px solid rgba(200, 155, 60, 0.2);
+  background: var(--ink-raised);
+}
+
+.timing-section::before {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(200, 155, 60, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(200, 155, 60, 0.025) 1px, transparent 1px);
+  background-size: 72px 72px;
+  content: "";
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 78%);
+}
+
+.timing-section__inner {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.timing-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  align-items: end;
+  gap: 60px;
+  margin-bottom: 46px;
+}
+
+.timing-heading h2 {
+  max-width: 760px;
+  margin-bottom: 0;
+  font-size: 3.45rem;
+  line-height: 0.96;
+}
+
+.timing-heading > p {
+  max-width: 560px;
+  margin: 0 0 4px;
+  color: var(--cream-muted);
+  font-size: 1.04rem;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+.timing-lab {
+  position: relative;
+  border: 1px solid var(--gold-line);
+  background: var(--ink-panel);
+  box-shadow: 0 44px 100px rgba(0, 4, 8, 0.34);
+}
+
+.timing-lab::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32%;
+  height: 1px;
+  background: var(--cyan);
+  content: "";
+  opacity: 0.8;
+}
+
+.timing-lab__chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 64px;
+  padding: 15px 22px;
+  border-bottom: 1px solid var(--gold-line);
+  background: linear-gradient(180deg, rgba(10, 22, 34, 0.95), rgba(7, 16, 26, 0.78));
+}
+
+.timing-lab__label,
+.timing-rail__caption span,
+.timing-lab__telemetry span,
+.timing-lab__readout span,
+.timing-lab__legend,
+.timing-lab__scrub,
+.timing-lab__event-code,
+.timing-lab__event-lock {
+  color: var(--gold-bright);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.timing-lab__chrome h3 {
+  margin: 6px 0 0;
+  color: var(--cream);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.timing-lab__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cyan);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  white-space: nowrap;
+}
+
+.timing-lab__status i {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--cyan);
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 14px rgba(10, 200, 185, 0.72);
+  animation: timing-status-pulse 1.8s ease-in-out infinite;
+}
+
+.timing-lab[data-timing-state="danger"] .timing-lab__status {
+  color: var(--danger);
+}
+
+.timing-lab[data-timing-state="danger"] .timing-lab__status i {
+  border-color: var(--danger);
+  background: var(--danger);
+  box-shadow: 0 0 14px rgba(217, 81, 78, 0.65);
+}
+
+.timing-lab__telemetry {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+  background: rgba(3, 11, 18, 0.5);
+}
+
+.timing-lab__telemetry div {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 14px 18px 15px;
+  border-right: 1px solid var(--line);
+}
+
+.timing-lab__telemetry div:last-child {
+  border-right: 0;
+}
+
+.timing-lab__telemetry span,
+.timing-lab__readout span {
+  color: var(--cream-muted);
+  font-size: 0.56rem;
+}
+
+.timing-lab__telemetry strong {
+  overflow: hidden;
+  color: var(--cream);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timing-lab__telemetry div:nth-child(2) strong,
+.timing-lab__telemetry div:nth-child(4) strong {
+  color: var(--cyan);
+}
+
+.timing-rail {
+  padding: 18px 24px 15px;
+  border-bottom: 0.5px solid rgba(240, 230, 210, 0.1);
+  background: rgba(6, 17, 27, 0.36);
+  overflow: hidden;
+}
+
+.timing-rail__caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 7px;
+}
+
+.timing-rail__caption strong {
+  color: var(--cream-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+
+.timing-rail__nodes {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 16px 8px 2px;
+}
+
+.timing-rail__nodes::before {
+  position: absolute;
+  top: 21px;
+  right: 32px;
+  left: 32px;
+  height: 0.5px;
+  background: rgba(214, 180, 91, 0.5);
+  content: "";
+}
+
+.timing-rail__nodes::after {
+  display: none;
+}
+
+.timing-rail__node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  flex: 1 1 0;
+  gap: 5px;
+  color: var(--cream-muted);
+  text-align: center;
+}
+
+.timing-rail__node i {
+  position: relative;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border: 0.5px solid rgba(214, 180, 91, 0.62);
+  border-radius: 50%;
+  background: rgba(200, 155, 60, 0.14);
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.timing-rail__node i::before,
+.timing-rail__node i::after {
+  position: absolute;
+  left: 50%;
+  width: 0.5px;
+  background: rgba(214, 180, 91, 0.7);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.timing-rail__node i::before {
+  top: -7px;
+  height: 8px;
+}
+
+.timing-rail__node i::after {
+  bottom: -7px;
+  height: 8px;
+}
+
+.timing-rail__node b {
+  color: var(--gold-bright);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.52rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+
+.timing-rail__node span {
+  min-height: 16px;
+  color: var(--cream-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.46rem;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.timing-rail__node.is-complete i {
+  border-color: var(--gold);
+  background: rgba(214, 180, 91, 0.2);
+}
+
+.timing-rail__node.is-current i {
+  border-color: var(--cyan);
+  background: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(10, 200, 185, 0.06), 0 0 14px rgba(10, 200, 185, 0.22);
+  transform: translateY(-1px);
+}
+
+.timing-rail__node.is-current b,
+.timing-rail__node.is-current span {
+  color: var(--cyan);
+}
+
+.timing-rail__arrow {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 18px;
+  height: 0.5px;
+  margin-top: 5px;
+  background: rgba(214, 180, 91, 0.42);
+}
+
+.timing-rail__arrow::after {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  width: 5px;
+  height: 5px;
+  border-top: 0.5px solid var(--gold-bright);
+  border-right: 0.5px solid var(--gold-bright);
+  content: "";
+  transform: rotate(45deg);
+}
+
+.timing-lab__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(3, 11, 18, 0.72);
+}
+
+.timing-lab__scenarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timing-scenario,
+.timing-play {
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid var(--gold-line);
+  background: transparent;
+  color: var(--cream-muted);
+  cursor: pointer;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.61rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.timing-scenario:hover,
+.timing-play:hover {
+  border-color: var(--cyan);
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+
+.timing-scenario.is-active,
+.timing-play[aria-pressed="true"] {
+  border-color: var(--cyan);
+  background: rgba(10, 200, 185, 0.11);
+  color: var(--cyan);
+}
+
+.timing-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border-color: var(--cyan-dark);
+  color: var(--cyan);
+  white-space: nowrap;
+}
+
+.timing-play span:first-child {
+  color: var(--gold-bright);
+  font-size: 0.56rem;
+}
+
+.timing-lab__readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+}
+
+.timing-lab__readout div {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 13px 17px 14px;
+  border-right: 1px solid var(--line);
+}
+
+.timing-lab__readout div:last-child {
+  border-right: 0;
+}
+
+.timing-lab__readout strong {
+  overflow: hidden;
+  color: var(--cream);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 400;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timing-lab__readout div:nth-child(2) strong {
+  color: var(--cyan);
+}
+
+.timing-lab[data-timing-state="danger"] .timing-lab__readout div:nth-child(2) strong {
+  color: var(--danger);
+}
+
+.timing-lab__viewport {
+  overflow-x: auto;
+  padding: 16px 16px 15px;
+  background: #050d14;
+  outline: 0;
+}
+
+.timing-lab__viewport:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--cyan);
+}
+
+.timing-lab__ruler,
+.timing-lab__timeline {
+  display: grid;
+  grid-template-columns: 148px minmax(700px, 1fr);
+  min-width: 848px;
+}
+
+.timing-lab__ruler {
+  align-items: end;
+  min-height: 28px;
+}
+
+.timing-ruler__label {
+  padding: 0 12px 7px 0;
+  color: var(--cream-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-align: right;
+}
+
+.timing-ruler__track {
+  position: relative;
+  height: 28px;
+  border-bottom: 1px solid var(--gold-line);
+}
+
+.timing-ruler__mark {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: 7px;
+  color: var(--cream-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.53rem;
+  line-height: 1;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.timing-ruler__mark:first-child {
+  transform: translateX(0);
+}
+
+.timing-ruler__mark:last-child {
+  transform: translateX(-100%);
+}
+
+.timing-lab__timeline {
+  position: relative;
+}
+
+.timing-lab__labels,
+.timing-lab__tracks {
+  display: grid;
+  grid-template-rows: repeat(var(--timing-rows), minmax(46px, auto));
+}
+
+.timing-lab__labels {
+  border-right: 1px solid var(--gold-line);
+}
+
+.timing-lane-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 14px 0 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--cream-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.57rem;
+  line-height: 1.25;
+  text-align: right;
+}
+
+.timing-lane-track {
+  position: relative;
+  min-height: 46px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background-image: linear-gradient(90deg, rgba(200, 155, 60, 0.12) 1px, transparent 1px);
+  background-size: calc(100% / var(--timing-columns)) 100%;
+}
+
+.timing-bar {
+  position: absolute;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  min-width: 2px;
+  height: 24px;
+  overflow: hidden;
+  padding: 0 9px;
+  border: 1px solid currentColor;
+  color: var(--cream-muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.07em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.timing-bar--muted {
+  border-color: rgba(240, 230, 210, 0.18);
+  background: rgba(240, 230, 210, 0.04);
+}
+
+.timing-bar--core {
+  border-color: var(--gold);
+  background: rgba(200, 155, 60, 0.13);
+  color: var(--gold-bright);
+}
+
+.timing-bar--active {
+  border-color: var(--cyan-dark);
+  background: rgba(10, 200, 185, 0.12);
+  color: var(--cyan);
+}
+
+.timing-bar--confirmed {
+  border-color: var(--cyan);
+  background: rgba(10, 200, 185, 0.25);
+  color: #a9fff2;
+  box-shadow: inset 0 0 18px rgba(10, 200, 185, 0.12);
+}
+
+.timing-bar--warning {
+  border-color: #b87e40;
+  background: rgba(239, 173, 104, 0.1);
+  color: #efad68;
+}
+
+.timing-bar--danger {
+  border-color: var(--danger);
+  background: rgba(217, 81, 78, 0.14);
+  color: #f18b86;
+}
+
+.timing-event-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 1px;
+  border-left: 1px dashed var(--gold-bright);
+  opacity: 0.52;
+  pointer-events: none;
+}
+
+.timing-event-line--confirmed {
+  border-color: var(--cyan);
+}
+
+.timing-event-line--danger {
+  border-color: var(--danger);
+}
+
+.timing-lab__cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 18px rgba(10, 200, 185, 0.75);
+  pointer-events: none;
+  transform: translateX(-1px);
+}
+
+.timing-lab__cursor i {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--cyan);
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translateX(-50%);
+}
+
+.timing-lab__cursor b {
+  position: absolute;
+  top: -24px;
+  left: 7px;
+  color: var(--cyan);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.56rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.timing-lab__scrub {
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 20px 16px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(7, 16, 26, 0.84);
+}
+
+.timing-lab__scrub label {
+  color: var(--cream-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.timing-lab__scrub input {
+  width: 100%;
+  accent-color: var(--cyan);
+  cursor: pointer;
+}
+
+.timing-lab__scrub > span {
+  color: var(--gold-bright);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.timing-lab__event {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  min-height: 66px;
+  padding: 13px 17px;
+  border-bottom: 1px solid var(--line);
+}
+
+.timing-lab__event-code {
+  color: var(--cyan);
+  line-height: 1.35;
+}
+
+.timing-lab__event strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--cream);
+  font-family: "Beaufort for LOL", Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.timing-lab__event p {
+  max-width: 700px;
+  margin: 0;
+  color: var(--cream-muted);
+  font-size: 0.77rem;
+  line-height: 1.45;
+}
+
+.timing-lab__event-lock {
+  color: var(--gold-bright);
+  white-space: nowrap;
+}
+
+.timing-lab__legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 16px 22px 17px;
+  color: var(--cream-muted);
+  font-size: 0.56rem;
+}
+
+.timing-lab__legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.timing-lab__legend .timing-lab__legend-note {
+  margin-left: auto;
+  color: var(--gold-bright);
+}
+
+.timing-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.timing-dot--confirmed {
+  background: var(--cyan);
+}
+
+.timing-dot--active {
+  background: var(--gold-bright);
+}
+
+.timing-dot--danger {
+  background: var(--danger);
+}
+
+.timing-proof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 1px;
+  border-bottom: 1px solid var(--gold-line);
+}
+
+.timing-proof div {
+  display: grid;
+  gap: 8px;
+  padding: 28px 28px 30px;
+}
+
+.timing-proof div + div {
+  border-left: 1px solid var(--line);
+}
+
+.timing-proof strong {
+  color: var(--gold-bright);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+
+.timing-proof span {
+  color: var(--cream-muted);
+  font-size: 0.82rem;
+}
+
+@keyframes timing-status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.42;
+  }
+}
+
 .release-section {
   position: relative;
-  padding: 120px 0 180px;
+  padding: 86px 0 112px;
   background: var(--ink-raised);
 }
 
@@ -605,15 +1366,15 @@ select:focus-visible,
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
   align-items: end;
-  gap: 80px;
-  margin-bottom: 66px;
+  gap: 54px;
+  margin-bottom: 44px;
 }
 
 .section-heading h2,
 .system-heading h2,
 .discord-section h2 {
   margin-bottom: 0;
-  font-size: 3.65rem;
+  font-size: 3.15rem;
   line-height: 1.02;
 }
 
@@ -1097,7 +1858,7 @@ select:focus-visible,
 
 .system-section {
   position: relative;
-  padding: 160px 0 175px;
+  padding: 104px 0 122px;
   overflow: hidden;
   background: var(--ink);
   border-top: 1px solid rgba(200, 155, 60, 0.2);
@@ -1105,7 +1866,7 @@ select:focus-visible,
 
 .prediction-section {
   position: relative;
-  padding: 150px 0 165px;
+  padding: 96px 0 112px;
   overflow: hidden;
   border-top: 1px solid rgba(200, 155, 60, 0.2);
   background: var(--ink);
@@ -1120,14 +1881,14 @@ select:focus-visible,
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
   align-items: end;
-  gap: 80px;
-  margin-bottom: 66px;
+  gap: 54px;
+  margin-bottom: 44px;
 }
 
 .prediction-heading h2 {
   max-width: 780px;
   margin-bottom: 0;
-  font-size: 3.65rem;
+  font-size: 3.15rem;
   line-height: 1.02;
 }
 
@@ -1521,7 +2282,7 @@ html.js .prediction-benefit {
 
 .community-section {
   position: relative;
-  padding: 150px 0 165px;
+  padding: 96px 0 112px;
   overflow: hidden;
   border-top: 1px solid var(--gold-line);
   background: #07131d;
@@ -1557,14 +2318,14 @@ html.js .prediction-benefit {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
   align-items: end;
-  gap: 90px;
-  margin-bottom: 68px;
+  gap: 58px;
+  margin-bottom: 46px;
 }
 
 .community-heading h2 {
   max-width: 780px;
   margin-bottom: 0;
-  font-size: 4.15rem;
+  font-size: 3.4rem;
   line-height: 0.98;
 }
 
@@ -2080,7 +2841,7 @@ html.js .prediction-benefit {
 
 .discord-section {
   position: relative;
-  padding: 130px 0 145px;
+  padding: 94px 0 108px;
   overflow: hidden;
   border-top: 1px solid var(--gold-line);
   background: #08151e;
@@ -2262,6 +3023,10 @@ html.js [data-reveal].is-inview .community-flow li:nth-child(3) { transition-del
     font-size: 5rem;
   }
 
+  .timing-heading h2 {
+    font-size: 3.2rem;
+  }
+
   .profile-shell {
     grid-template-columns: 170px minmax(330px, 1fr) minmax(330px, 0.9fr);
   }
@@ -2369,6 +3134,11 @@ html.js [data-reveal].is-inview .community-flow li:nth-child(3) { transition-del
     gap: 26px;
   }
 
+  .timing-heading {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
   .section-heading > p {
     margin-bottom: 0;
   }
@@ -2447,6 +3217,19 @@ html.js [data-reveal].is-inview .community-flow li:nth-child(3) { transition-del
 
   .community-flow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .system-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .system-pillars li + li {
+    border-top: 1px solid rgba(200, 155, 60, 0.2);
+    border-left: 0;
+  }
+
+  .system-pillars p {
+    max-width: none;
   }
 
   .community-flow li:nth-child(2) {
@@ -2625,6 +3408,191 @@ html.js [data-reveal].is-inview .community-flow li:nth-child(3) { transition-del
 
   .hero {
     min-height: max(610px, min(660px, calc(100svh - 200px)));
+  }
+
+  .timing-section {
+    padding: 70px 0 84px;
+  }
+
+  .timing-heading {
+    margin-bottom: 30px;
+  }
+
+  .timing-heading h2 {
+    font-size: 2.35rem;
+  }
+
+  .timing-heading > p {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .timing-lab__chrome {
+    min-height: 58px;
+    padding: 12px 14px;
+  }
+
+  .timing-lab__label,
+  .timing-rail__caption span,
+  .timing-lab__telemetry span,
+  .timing-lab__readout span,
+  .timing-lab__legend,
+  .timing-lab__scrub,
+  .timing-lab__event-code,
+  .timing-lab__event-lock {
+    font-size: 0.52rem;
+  }
+
+  .timing-lab__chrome h3 {
+    font-size: 1.12rem;
+  }
+
+  .timing-lab__status {
+    font-size: 0.54rem;
+  }
+
+  .timing-lab__telemetry div {
+    padding: 11px 12px 12px;
+  }
+
+  .timing-lab__telemetry strong {
+    font-size: 0.62rem;
+  }
+
+  .timing-rail {
+    padding: 17px 14px 16px;
+  }
+
+  .timing-rail__nodes {
+    min-width: 0;
+    padding: 17px 0 3px;
+  }
+
+  .timing-rail__node {
+    flex-basis: 0;
+    gap: 5px;
+  }
+
+  .timing-rail__node i {
+    width: 9px;
+    height: 9px;
+  }
+
+  .timing-rail__node i::before {
+    top: -6px;
+    height: 7px;
+  }
+
+  .timing-rail__node i::after {
+    bottom: -6px;
+    height: 7px;
+  }
+
+  .timing-rail__node b,
+  .timing-rail__node span {
+    font-size: 0.46rem;
+  }
+
+  .timing-rail__node span {
+    max-width: 72px;
+    min-height: 24px;
+  }
+
+  .timing-rail__nodes::before {
+    top: 20px;
+    right: 22px;
+    left: 22px;
+  }
+
+  .timing-rail__arrow {
+    min-width: 12px;
+    margin-top: 4px;
+  }
+
+  .timing-lab__readout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .timing-lab__readout div {
+    padding: 10px 10px 11px;
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+  }
+
+  .timing-lab__readout div:last-child {
+    border-right: 0;
+  }
+
+  .timing-lab__readout strong {
+    font-size: 0.54rem;
+  }
+
+  .timing-lab__viewport {
+    padding: 12px 10px 11px;
+  }
+
+  .timing-lab__ruler,
+  .timing-lab__timeline {
+    grid-template-columns: 118px minmax(620px, 1fr);
+    min-width: 738px;
+  }
+
+  .timing-lab__labels,
+  .timing-lab__tracks {
+    grid-template-rows: repeat(var(--timing-rows), minmax(40px, auto));
+  }
+
+  .timing-lane-track {
+    min-height: 40px;
+  }
+
+  .timing-bar {
+    top: 8px;
+    height: 22px;
+    padding-inline: 6px;
+    font-size: 0.48rem;
+  }
+
+  .timing-lane-label {
+    padding-right: 9px;
+    font-size: 0.48rem;
+  }
+
+  .timing-lab__event {
+    grid-template-columns: 82px minmax(0, 1fr);
+    min-height: 72px;
+    gap: 10px;
+    padding: 11px 12px;
+  }
+
+  .timing-lab__event strong {
+    font-size: 0.84rem;
+  }
+
+  .timing-lab__event p {
+    font-size: 0.63rem;
+  }
+
+  .timing-lab__event-lock {
+    display: none;
+  }
+
+  .timing-lab__legend {
+    gap: 8px 12px;
+    padding: 10px 12px 11px;
+    font-size: 0.47rem;
+  }
+
+  .timing-proof div {
+    padding: 16px 14px 18px;
+  }
+
+  .timing-proof strong {
+    font-size: 0.64rem;
+  }
+
+  .timing-proof span {
+    font-size: 0.7rem;
   }
 
   .hero__art {
@@ -3032,6 +4000,99 @@ html.js [data-reveal].is-inview .community-flow li:nth-child(3) { transition-del
 
   .hero {
     min-height: max(590px, min(660px, calc(100svh - 200px)));
+  }
+
+  .timing-heading h2 {
+    font-size: 1.85rem;
+  }
+
+  .timing-lab__chrome {
+    display: grid;
+    gap: 15px;
+  }
+
+  .timing-lab__status {
+    justify-self: start;
+  }
+
+  .timing-lab__telemetry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timing-lab__telemetry div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .timing-lab__telemetry div:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .timing-rail {
+    padding: 24px 16px 25px;
+  }
+
+  .timing-rail__caption {
+    align-items: flex-start;
+    display: grid;
+    gap: 8px;
+  }
+
+  .timing-rail__nodes {
+    min-width: 0;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .timing-rail__node {
+    flex-basis: 0;
+  }
+
+  .timing-rail__nodes::before {
+    right: 22px;
+    left: 22px;
+  }
+
+  .timing-lab__controls {
+    align-items: flex-start;
+    display: grid;
+    gap: 14px;
+  }
+
+  .timing-play {
+    justify-self: start;
+  }
+
+  .timing-lab__scrub {
+    grid-template-columns: 1fr auto;
+    gap: 8px 14px;
+  }
+
+  .timing-lab__scrub input {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .timing-lab__event {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .timing-lab__event-lock {
+    justify-self: start;
+  }
+
+  .timing-lab__legend .timing-lab__legend-note {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .timing-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .timing-proof div + div {
+    border-top: 1px solid var(--line);
+    border-left: 0;
   }
 
   .hero__copy .eyebrow {

@@ -67,6 +67,7 @@
 
         <nav class="client-nav" aria-label="Primary navigation" data-i18n-aria="primaryNavigation">
           <a href="#releases" data-i18n="navReleases">Releases</a>
+          <a href="#timing" data-i18n="navTiming">Timing</a>
           <a href="#prediction" data-i18n="navPrediction">Prediction</a>
           <a href="#community" data-i18n="navCommunity">Community</a>
           <a href="#system" data-i18n="navSystem">System</a>
@@ -112,6 +113,7 @@
     <div class="client-backdrop" data-menu-backdrop></div>
     <nav class="client-drawer" id="client-drawer" aria-label="Mobile navigation" data-i18n-aria="primaryNavigation" data-menu-drawer>
       <a href="#releases" data-menu-link data-i18n="navReleases">Releases</a>
+      <a href="#timing" data-menu-link data-i18n="navTiming">Timing</a>
       <a href="#prediction" data-menu-link data-i18n="navPrediction">Prediction</a>
       <a href="#community" data-menu-link data-i18n="navCommunity">Community</a>
       <a href="#system" data-menu-link data-i18n="navSystem">System</a>
@@ -158,11 +160,11 @@
         <div class="hero__ornament hero__ornament--top" aria-hidden="true"><span></span></div>
         <div class="hero__inner page-shell">
           <div class="hero__copy">
-            <p class="eyebrow" data-i18n="heroEyebrow">HANBOT CHAMPION AIO</p>
-            <h1 id="hero-title">RIFTPLUS</h1>
-            <p class="hero__lead" data-i18n="heroLead">
-              Champion-specific scripts on one shared Prediction engine, built for deliberate control and safer decisions.
-            </p>
+             <p class="eyebrow" data-i18n="heroEyebrow">PIXEL-PERFECT HANBOT CORE</p>
+             <h1 id="hero-title">RIFTPLUS</h1>
+             <p class="hero__lead" data-i18n="heroLead">
+               A 0.033 s combat loop keeps Orbwalker, Last Hit, Weave, RiftPred, and Evade aligned before the next action.
+             </p>
             <div class="hero__actions">
               <a class="action action--primary" href="#releases" data-i18n="heroPrimary">Explore releases</a>
               <a
@@ -177,6 +179,101 @@
               </a>
             </div>
             <p class="hero__release-flag" data-hero-release aria-hidden="true"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="timing-section" id="timing" aria-labelledby="timing-title">
+        <div class="timing-section__inner page-shell">
+          <div class="timing-heading" data-reveal>
+            <div>
+              <p class="eyebrow" data-i18n="timingEyebrow">THE 33 MS CONTRACT</p>
+              <h2 id="timing-title" data-i18n="timingTitle">Every action lands inside its window.</h2>
+            </div>
+            <p data-i18n="timingBody">
+              This is the RiftReborn timing contract in motion: pre-tick priority, attack phases, predicted health, post-attack weave, and Evade safety resolved on one rail.
+            </p>
+          </div>
+
+          <div class="timing-lab" data-timing-lab data-reveal>
+            <div class="timing-lab__chrome">
+              <div>
+                <span class="timing-lab__label">RIFTPULSE / REPLAY LAB</span>
+                <h3 data-timing-title>LAST HIT</h3>
+              </div>
+              <span class="timing-lab__status"><i aria-hidden="true"></i><b data-timing-status>ALIGNED / READY</b></span>
+            </div>
+
+            <div class="timing-lab__telemetry" aria-label="Timing telemetry">
+              <div><span>RUNTIME</span><strong>RIFTREBORN CORE</strong></div>
+              <div><span>TICK</span><strong data-timing-tick>0.033 S</strong></div>
+              <div><span>FRAME</span><strong data-timing-frame>184</strong></div>
+              <div><span>SYNC</span><strong data-timing-sync>LOCKED</strong></div>
+            </div>
+
+            <div class="timing-lab__controls">
+              <div class="timing-lab__scenarios" role="group" aria-label="Timing replay scenarios">
+                <button class="timing-scenario is-active" type="button" data-timing-case="last-hit" data-i18n="timingLastHit" aria-pressed="true">Last Hit</button>
+                <button class="timing-scenario" type="button" data-timing-case="weave" data-i18n="timingWeave" aria-pressed="false">Weave</button>
+                <button class="timing-scenario" type="button" data-timing-case="evade" data-i18n="timingEvade" aria-pressed="false">Evade</button>
+              </div>
+              <button class="timing-play" type="button" data-timing-play aria-pressed="false">
+                <span aria-hidden="true" data-timing-play-icon>></span>
+                <span data-timing-play-label data-i18n="timingPlay">Replay</span>
+              </button>
+            </div>
+
+            <div class="timing-rail" aria-label="Continuous 33 millisecond decision rail">
+              <div class="timing-rail__caption">
+                <span data-i18n="timingRailLabel">ONE DECISION RAIL</span>
+                <strong>0.033 S / HANDOFF</strong>
+              </div>
+              <div class="timing-rail__nodes" data-timing-rail-nodes></div>
+            </div>
+
+            <div class="timing-lab__readout" aria-live="polite">
+              <div><span>ACTIVE CONTRACT</span><strong data-timing-contract>LAST HIT / AA WINDOW</strong></div>
+              <div><span>DECISION</span><strong data-timing-decision>HIT CONFIRMED</strong></div>
+              <div><span>NEXT WINDOW</span><strong data-timing-next>ATTACK RESET / 0.033 S</strong></div>
+            </div>
+
+            <div class="timing-lab__viewport" data-timing-viewport tabindex="0" aria-label="Tick-aligned combat timeline">
+              <div class="timing-lab__ruler" data-timing-ruler aria-hidden="true"></div>
+              <div class="timing-lab__timeline">
+                <div class="timing-lab__labels" data-timing-labels></div>
+                <div class="timing-lab__tracks" data-timing-tracks>
+                  <span class="timing-lab__cursor" data-timing-cursor aria-hidden="true"><i></i><b>T184</b></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="timing-lab__scrub">
+              <label for="timing-scrubber" data-i18n="timingScrubberLabel">Inspect the decision window</label>
+              <input id="timing-scrubber" type="range" min="0" max="23" value="0" step="1" data-timing-scrubber aria-label="Inspect timing tick" />
+              <span data-timing-position>00 / 24</span>
+            </div>
+
+            <div class="timing-lab__event">
+              <span class="timing-lab__event-code" data-timing-event-code>T184.00</span>
+              <div>
+                <strong data-timing-event>PRE-TICK</strong>
+                <p data-timing-event-detail>The core reads native mode state before the Orbwalker processes its next order.</p>
+              </div>
+              <span class="timing-lab__event-lock" data-i18n="timingEventLock">CONTRACT LOCKED</span>
+            </div>
+
+            <div class="timing-lab__legend" aria-label="Timing legend">
+              <span><i class="timing-dot timing-dot--confirmed" aria-hidden="true"></i>CONFIRMED</span>
+              <span><i class="timing-dot timing-dot--active" aria-hidden="true"></i>ACTIVE WINDOW</span>
+              <span><i class="timing-dot timing-dot--danger" aria-hidden="true"></i>THREAT / HOLD</span>
+              <span class="timing-lab__legend-note" data-i18n="timingLegend">REPLAYED CONTRACT VISUALIZATION</span>
+            </div>
+          </div>
+
+          <div class="timing-proof" data-reveal>
+            <div><strong>0.033 s</strong><span data-i18n="timingProofTick">tick contract</span></div>
+            <div><strong>PRE-TICK</strong><span data-i18n="timingProofOrb">before Orbwalker order</span></div>
+            <div><strong>FAIL-CLOSED</strong><span data-i18n="timingProofSafety">unsafe casts stay blocked</span></div>
           </div>
         </div>
       </section>
@@ -488,7 +585,7 @@
           <div class="system-arch" data-reveal>
             <div class="system-arch__core">
               <span class="system-arch__core-node"><b>CORE</b></span>
-              <p class="system-arch__core-caption">SHARED RUNTIME · ONE ENGINE</p>
+              <p class="system-arch__core-caption">SHARED RUNTIME · 13 MODULES</p>
             </div>
             <div class="system-arch__spine" aria-hidden="true"></div>
             <ol class="system-arch__champions" aria-label="Releases running on the shared core">
@@ -514,10 +611,10 @@
               </li>
             </ol>
             <ul class="system-arch__contracts" aria-label="Shared runtime contracts">
-              <li>PREDICTION</li>
-              <li>DAMAGE</li>
-              <li>CALLBACKS</li>
-              <li>SAFETY</li>
+              <li>PRE-TICK</li>
+              <li>ORBWALKER</li>
+              <li>RIFTPRED</li>
+              <li>EVADE</li>
             </ul>
           </div>
 

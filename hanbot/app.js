@@ -58,6 +58,161 @@
     },
   };
 
+  const timingCases = {
+    "last-hit": {
+      title: "LAST HIT",
+      contract: "LAST HIT / AA WINDOW",
+      decision: "HIT CONFIRMED",
+      next: "ATTACK RESET / 0.033 S",
+      baseFrame: 184,
+      ticks: 24,
+      lanes: [
+        {
+          label: "CORE / PRE-TICK",
+          bars: [
+            { from: 0, to: 4, kind: "core", label: "PRE-TICK" },
+            { from: 4, to: 8, kind: "active", label: "TARGET" },
+            { from: 8, to: 12, kind: "confirmed", label: "GATE OPEN" },
+            { from: 12, to: 24, kind: "muted", label: "READY" },
+          ],
+        },
+        {
+          label: "ORB / ATTACK",
+          bars: [
+            { from: 0, to: 3, kind: "muted", label: "WAIT" },
+            { from: 3, to: 8, kind: "active", label: "WINDUP" },
+            { from: 8, to: 10, kind: "confirmed", label: "IMPACT" },
+            { from: 10, to: 16, kind: "muted", label: "RESET" },
+          ],
+        },
+        {
+          label: "FARM / MINION 03",
+          bars: [
+            { from: 0, to: 6, kind: "warning", label: "HP > AA" },
+            { from: 6, to: 10, kind: "confirmed", label: "HP <= AA" },
+            { from: 10, to: 18, kind: "muted", label: "PREDICT" },
+          ],
+        },
+        {
+          label: "DECISION / LAST HIT",
+          bars: [
+            { from: 0, to: 8, kind: "muted", label: "HOLD" },
+            { from: 8, to: 11, kind: "confirmed", label: "ATTACK" },
+            { from: 11, to: 24, kind: "muted", label: "CONFIRMED" },
+          ],
+        },
+      ],
+      events: [
+        { at: 0, code: "PRE-TICK", title: "PRE-TICK", detail: "Native Last Hit mode is read before the Orbwalker processes its next order.", kind: "core" },
+        { at: 6, code: "HP PRED", title: "PREDICTED HP CLEARS", detail: "Minion health is projected through attack wait time and hit travel before the gate opens.", kind: "active" },
+        { at: 8, code: "AA 184", title: "HIT CONFIRMED", detail: "The attack lands inside the damage window. No early cast, no wasted reset.", kind: "confirmed" },
+        { at: 12, code: "RESET", title: "NEXT WINDOW ARMED", detail: "The Orbwalker can move or issue the next order on the following aligned tick.", kind: "core" },
+      ],
+    },
+    weave: {
+      title: "PIXEL-PERFECT WEAVE",
+      contract: "WEAVE / POST-ATTACK",
+      decision: "Q CAST AFTER ATTACK",
+      next: "MOVE GAP / 0.033 S",
+      baseFrame: 212,
+      ticks: 24,
+      lanes: [
+        {
+          label: "CORE / PRIORITY",
+          bars: [
+            { from: 0, to: 3, kind: "core", label: "PRE-TICK" },
+            { from: 3, to: 7, kind: "active", label: "PRIORITY" },
+            { from: 7, to: 10, kind: "confirmed", label: "CAST GATE" },
+            { from: 10, to: 24, kind: "muted", label: "NEXT" },
+          ],
+        },
+        {
+          label: "ORB / ATTACK",
+          bars: [
+            { from: 0, to: 6, kind: "active", label: "WINDUP PROTECTED" },
+            { from: 6, to: 8, kind: "confirmed", label: "ATTACK CONFIRMED" },
+            { from: 8, to: 12, kind: "muted", label: "RECOVERY" },
+            { from: 12, to: 24, kind: "active", label: "NEXT ATTACK" },
+          ],
+        },
+        {
+          label: "WEAVE / SPELL",
+          bars: [
+            { from: 0, to: 8, kind: "muted", label: "PROTECT AA" },
+            { from: 8, to: 10, kind: "confirmed", label: "AFTER ATTACK" },
+            { from: 10, to: 13, kind: "active", label: "Q CAST" },
+            { from: 13, to: 17, kind: "confirmed", label: "MOVE" },
+          ],
+        },
+        {
+          label: "SYNC / POSITION",
+          bars: [
+            { from: 0, to: 8, kind: "muted", label: "LOCK" },
+            { from: 8, to: 13, kind: "confirmed", label: "WEAVE GAP" },
+            { from: 13, to: 24, kind: "active", label: "REPOSITION" },
+          ],
+        },
+      ],
+      events: [
+        { at: 0, code: "PRE-TICK", title: "WINDUP PROTECTED", detail: "The core refuses to interrupt a confirmed attack windup with a competing action.", kind: "core" },
+        { at: 7, code: "AA 212", title: "ATTACK CONFIRMED", detail: "The post-attack route opens exactly after the attack callback, not before it.", kind: "confirmed" },
+        { at: 9, code: "Q + 1", title: "WEAVE WINDOW OPEN", detail: "Q is placed in the recovery gap while the next Orbwalker order remains aligned.", kind: "active" },
+        { at: 13, code: "MOVE", title: "POSITION RECOVERED", detail: "Movement resumes without stealing the next attack window.", kind: "confirmed" },
+      ],
+    },
+    evade: {
+      title: "EVADE WINDOW",
+      contract: "EVADE / SAFE ENDPOINT",
+      decision: "HOLD UNTIL SAFE",
+      next: "THREAT END / 0.033 S",
+      baseFrame: 241,
+      ticks: 24,
+      lanes: [
+        {
+          label: "CORE / PRE-TICK",
+          bars: [
+            { from: 0, to: 4, kind: "core", label: "PRE-TICK" },
+            { from: 4, to: 8, kind: "active", label: "THREAT READ" },
+            { from: 8, to: 13, kind: "confirmed", label: "SAFE CHECK" },
+            { from: 13, to: 24, kind: "muted", label: "CLEAR" },
+          ],
+        },
+        {
+          label: "ORB / ACTION",
+          bars: [
+            { from: 0, to: 6, kind: "active", label: "ATTACK WINDUP" },
+            { from: 6, to: 9, kind: "warning", label: "FINISH" },
+            { from: 9, to: 14, kind: "confirmed", label: "MOVE" },
+            { from: 14, to: 24, kind: "muted", label: "RE-ARM" },
+          ],
+        },
+        {
+          label: "EVADE / SKILLSHOT",
+          bars: [
+            { from: 0, to: 3, kind: "muted", label: "DETECTED" },
+            { from: 3, to: 13, kind: "danger", label: "THREAT WINDOW" },
+            { from: 7, to: 12, kind: "active", label: "HIT TIME" },
+            { from: 12, to: 17, kind: "confirmed", label: "SAFE ENDPOINT" },
+          ],
+        },
+        {
+          label: "DECISION / FAIL-CLOSED",
+          bars: [
+            { from: 0, to: 8, kind: "danger", label: "HOLD" },
+            { from: 8, to: 13, kind: "confirmed", label: "REPOSITION" },
+            { from: 13, to: 24, kind: "muted", label: "CAST ALLOWED" },
+          ],
+        },
+      ],
+      events: [
+        { at: 0, code: "EVADE", title: "SKILLSHOT DETECTED", detail: "The active spell enters the rail with its own start and end timing.", kind: "danger" },
+        { at: 5, code: "HIT TIME", title: "ACTION HELD", detail: "The current attack can finish, but a new action is held until the endpoint is evaluated.", kind: "danger" },
+        { at: 9, code: "SAFE", title: "SAFE ENDPOINT", detail: "Evade safety clears the destination, so movement can resume without guessing.", kind: "confirmed" },
+        { at: 14, code: "CLEAR", title: "CAST GATE OPEN", detail: "The threat window closes and the shared core re-arms the next action.", kind: "core" },
+      ],
+    },
+  };
+
   function clampHorizontalScroll() {
     if (window.scrollX !== 0) window.scrollTo(0, window.scrollY);
   }
@@ -120,6 +275,30 @@
     predictionStats: Array.from(document.querySelectorAll("[data-stat]")),
     castLog: document.querySelector("[data-cast-log]"),
     predictionChartCanvas: document.querySelector("[data-prediction-chart]"),
+    timingLab: document.querySelector("[data-timing-lab]"),
+    timingCaseButtons: Array.from(document.querySelectorAll("[data-timing-case]")),
+    timingPlay: document.querySelector("[data-timing-play]"),
+    timingPlayIcon: document.querySelector("[data-timing-play-icon]"),
+    timingPlayLabel: document.querySelector("[data-timing-play-label]"),
+    timingTitle: document.querySelector("[data-timing-title]"),
+    timingStatus: document.querySelector("[data-timing-status]"),
+    timingTick: document.querySelector("[data-timing-tick]"),
+    timingFrame: document.querySelector("[data-timing-frame]"),
+    timingSync: document.querySelector("[data-timing-sync]"),
+    timingRailNodes: document.querySelector("[data-timing-rail-nodes]"),
+    timingContract: document.querySelector("[data-timing-contract]"),
+    timingDecision: document.querySelector("[data-timing-decision]"),
+    timingNext: document.querySelector("[data-timing-next]"),
+    timingRuler: document.querySelector("[data-timing-ruler]"),
+    timingLabels: document.querySelector("[data-timing-labels]"),
+    timingTracks: document.querySelector("[data-timing-tracks]"),
+    timingCursor: document.querySelector("[data-timing-cursor]"),
+    timingViewport: document.querySelector("[data-timing-viewport]"),
+    timingScrubber: document.querySelector("[data-timing-scrubber]"),
+    timingPosition: document.querySelector("[data-timing-position]"),
+    timingEventCode: document.querySelector("[data-timing-event-code]"),
+    timingEvent: document.querySelector("[data-timing-event]"),
+    timingEventDetail: document.querySelector("[data-timing-event-detail]"),
     menuToggle: document.querySelector("[data-menu-toggle]"),
     menuDrawer: document.querySelector(".client-drawer"),
     menuBackdrop: document.querySelector(".client-backdrop"),
@@ -137,10 +316,17 @@
     scrollFrame: 0,
     community: readCommunityState(),
     predictionCase: "accepted",
+    timingCase: "last-hit",
+    timingTick: 0,
+    timingPlaying: false,
+    timingFrame: 0,
+    timingElapsed: 0,
+    timingLastTimestamp: 0,
   };
 
   let predictionChart = null;
   let predictionCaseButtons = [];
+  let timingAnimationFrame = 0;
 
   const communitySeeds = [
     { id: "samira-q-flash-window", champion: "samira", ability: "q", copyKey: "communityProposalSamiraQ", votes: 31, threshold: 40 },
@@ -295,7 +481,7 @@
     dom.menuSource.textContent = champion.menuSource;
 
     if (dom.heroRelease) {
-      dom.heroRelease.textContent = `${champion.release} ${champion.order} · ${copy.displayName.toUpperCase()}`;
+      dom.heroRelease.textContent = `${translation().heroTimingLabel} · ${champion.release} ${champion.order} · ${copy.displayName.toUpperCase()}`;
     }
 
     renderAbilityTabs();
@@ -614,6 +800,237 @@
       predictionChart.options.plugins.zone = caseData.zone;
       predictionChart.update();
     }
+  }
+
+  const TIMING_TICK_MS = 33;
+
+  function timingScenario() {
+    return timingCases[state.timingCase] || timingCases["last-hit"];
+  }
+
+  function timingPercent(value, total) {
+    return `${Math.max(0, Math.min(100, (value / total) * 100))}%`;
+  }
+
+  function renderTimingRuler(scenario) {
+    if (!dom.timingRuler) return;
+    dom.timingRuler.textContent = "";
+
+    const label = document.createElement("span");
+    label.className = "timing-ruler__label";
+    label.textContent = "TICK";
+    dom.timingRuler.appendChild(label);
+
+    const track = document.createElement("div");
+    track.className = "timing-ruler__track";
+    for (let index = 0; index <= scenario.ticks; index += 1) {
+      const mark = document.createElement("span");
+      mark.className = "timing-ruler__mark";
+      mark.style.left = timingPercent(index, scenario.ticks);
+      mark.textContent = String(index).padStart(2, "0");
+      track.appendChild(mark);
+    }
+    dom.timingRuler.appendChild(track);
+  }
+
+  function renderTimingRail(scenario) {
+    if (!dom.timingRailNodes) return;
+    dom.timingRailNodes.textContent = "";
+
+    scenario.events.forEach((event, index) => {
+      const node = document.createElement("div");
+      node.className = "timing-rail__node";
+      node.dataset.timingRailAt = String(event.at);
+      node.dataset.timingRailKind = event.kind;
+
+      const ring = document.createElement("i");
+      ring.setAttribute("aria-hidden", "true");
+      const frame = document.createElement("b");
+      frame.textContent = `T${scenario.baseFrame + event.at}`;
+      const label = document.createElement("span");
+      label.textContent = event.code;
+      node.append(ring, frame, label);
+      dom.timingRailNodes.appendChild(node);
+
+      if (index < scenario.events.length - 1) {
+        const arrow = document.createElement("span");
+        arrow.className = "timing-rail__arrow";
+        arrow.setAttribute("aria-hidden", "true");
+        dom.timingRailNodes.appendChild(arrow);
+      }
+    });
+  }
+
+  function renderTimingTimeline(scenario) {
+    if (!dom.timingLabels || !dom.timingTracks) return;
+    dom.timingLabels.textContent = "";
+    dom.timingTracks.textContent = "";
+    dom.timingLabels.style.setProperty("--timing-rows", scenario.lanes.length);
+    dom.timingTracks.style.setProperty("--timing-rows", scenario.lanes.length);
+
+    scenario.lanes.forEach((lane) => {
+      const label = document.createElement("div");
+      label.className = "timing-lane-label";
+      label.textContent = lane.label;
+      dom.timingLabels.appendChild(label);
+
+      const track = document.createElement("div");
+      track.className = "timing-lane-track";
+      track.style.setProperty("--timing-columns", scenario.ticks);
+
+      lane.bars.forEach((bar) => {
+        const element = document.createElement("span");
+        element.className = `timing-bar timing-bar--${bar.kind}`;
+        element.style.left = timingPercent(bar.from, scenario.ticks);
+        element.style.width = timingPercent(bar.to - bar.from, scenario.ticks);
+        element.textContent = bar.label;
+        element.title = bar.label;
+        track.appendChild(element);
+      });
+      dom.timingTracks.appendChild(track);
+    });
+
+    scenario.events.forEach((event) => {
+      const marker = document.createElement("span");
+      marker.className = `timing-event-line timing-event-line--${event.kind}`;
+      marker.style.left = timingPercent(event.at, scenario.ticks);
+      marker.title = `${event.code}: ${event.title}`;
+      dom.timingTracks.appendChild(marker);
+    });
+
+    if (dom.timingCursor) {
+      dom.timingCursor.style.setProperty("--timing-rows", scenario.lanes.length);
+      dom.timingTracks.appendChild(dom.timingCursor);
+    }
+  }
+
+  function updateTimingDisplay() {
+    if (!dom.timingLab) return;
+    const scenario = timingScenario();
+    const currentTick = Math.max(0, Math.min(scenario.ticks - 1, state.timingTick));
+    const currentEvent = scenario.events.reduce((selected, event) => (
+      event.at <= currentTick ? event : selected
+    ), scenario.events[0]);
+    const frame = scenario.baseFrame + currentTick;
+
+    dom.timingLab.dataset.timingState = currentEvent.kind;
+    if (dom.timingTitle) dom.timingTitle.textContent = scenario.title;
+    if (dom.timingStatus) dom.timingStatus.textContent = state.timingPlaying ? "LIVE / ALIGNED" : "ALIGNED / READY";
+    if (dom.timingTick) dom.timingTick.textContent = `${(TIMING_TICK_MS / 1000).toFixed(3)} S`;
+    if (dom.timingFrame) dom.timingFrame.textContent = String(frame);
+    if (dom.timingSync) dom.timingSync.textContent = "LOCKED";
+    if (dom.timingContract) dom.timingContract.textContent = scenario.contract;
+    if (dom.timingDecision) dom.timingDecision.textContent = currentEvent.title;
+    if (dom.timingNext) dom.timingNext.textContent = scenario.next;
+    dom.timingRailNodes?.querySelectorAll(".timing-rail__node").forEach((node) => {
+      const eventTick = Number(node.dataset.timingRailAt);
+      node.classList.toggle("is-complete", eventTick <= currentTick);
+      node.classList.toggle("is-current", eventTick === currentEvent.at);
+    });
+    if (dom.timingCursor) {
+      dom.timingCursor.style.left = timingPercent(currentTick, scenario.ticks);
+      const cursorLabel = dom.timingCursor.querySelector("b");
+      if (cursorLabel) cursorLabel.textContent = `T${frame}`;
+    }
+    if (dom.timingScrubber) {
+      dom.timingScrubber.max = String(scenario.ticks - 1);
+      dom.timingScrubber.value = String(currentTick);
+    }
+    if (dom.timingPosition) dom.timingPosition.textContent = `${String(currentTick).padStart(2, "0")} / ${String(scenario.ticks).padStart(2, "0")}`;
+    if (dom.timingEventCode) dom.timingEventCode.textContent = `T${frame} / ${currentEvent.code}`;
+    if (dom.timingEvent) dom.timingEvent.textContent = currentEvent.title;
+    if (dom.timingEventDetail) dom.timingEventDetail.textContent = currentEvent.detail;
+    if (dom.timingPlay) dom.timingPlay.setAttribute("aria-pressed", String(state.timingPlaying));
+    if (dom.timingPlayIcon) dom.timingPlayIcon.textContent = state.timingPlaying ? "||" : ">";
+    if (dom.timingPlayLabel) dom.timingPlayLabel.textContent = state.timingPlaying
+      ? translation().timingPause
+      : translation().timingPlay;
+  }
+
+  function renderTimingScenario() {
+    if (!dom.timingLab) return;
+    const scenario = timingScenario();
+    state.timingTick = 0;
+    state.timingElapsed = 0;
+    dom.timingCaseButtons.forEach((button) => {
+      const active = button.dataset.timingCase === state.timingCase;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    renderTimingRuler(scenario);
+    renderTimingRail(scenario);
+    renderTimingTimeline(scenario);
+    updateTimingDisplay();
+  }
+
+  function selectTimingCase(caseId) {
+    if (!timingCases[caseId]) return;
+    state.timingCase = caseId;
+    renderTimingScenario();
+  }
+
+  function setTimingTick(tick) {
+    const scenario = timingScenario();
+    state.timingTick = Math.max(0, Math.min(scenario.ticks - 1, Number(tick) || 0));
+    state.timingElapsed = state.timingTick * TIMING_TICK_MS;
+    updateTimingDisplay();
+  }
+
+  function timingPlaybackStep(timestamp) {
+    if (!state.timingPlaying) return;
+    if (!state.timingLastTimestamp) state.timingLastTimestamp = timestamp;
+    state.timingElapsed += Math.min(100, timestamp - state.timingLastTimestamp);
+    state.timingLastTimestamp = timestamp;
+
+    const scenario = timingScenario();
+    const duration = scenario.ticks * TIMING_TICK_MS;
+    if (state.timingElapsed >= duration) state.timingElapsed = 0;
+    const nextTick = Math.floor(state.timingElapsed / TIMING_TICK_MS);
+    if (nextTick !== state.timingTick) {
+      state.timingTick = nextTick;
+      updateTimingDisplay();
+    }
+    timingAnimationFrame = window.requestAnimationFrame(timingPlaybackStep);
+  }
+
+  function toggleTimingPlayback() {
+    if (!dom.timingLab) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      state.timingPlaying = false;
+      updateTimingDisplay();
+      return;
+    }
+    state.timingPlaying = !state.timingPlaying;
+    if (state.timingPlaying) {
+      const scenario = timingScenario();
+      if (state.timingTick >= scenario.ticks - 1) state.timingElapsed = 0;
+      state.timingLastTimestamp = 0;
+      timingAnimationFrame = window.requestAnimationFrame(timingPlaybackStep);
+    } else {
+      window.cancelAnimationFrame(timingAnimationFrame);
+      state.timingLastTimestamp = 0;
+    }
+    updateTimingDisplay();
+  }
+
+  function initTimingLab() {
+    if (!dom.timingLab) return;
+    dom.timingCaseButtons.forEach((button) => {
+      button.addEventListener("click", () => selectTimingCase(button.dataset.timingCase));
+    });
+    dom.timingPlay?.addEventListener("click", toggleTimingPlayback);
+    dom.timingScrubber?.addEventListener("input", (event) => setTimingTick(event.target.value));
+    dom.timingViewport?.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setTimingTick(state.timingTick + 1);
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setTimingTick(state.timingTick - 1);
+      }
+    });
+    renderTimingScenario();
   }
 
   const castZonePlugin = {
@@ -952,5 +1369,6 @@
   observeReveals();
   observePredictionReveal();
   initPredictionCases();
+  initTimingLab();
   initMobileMenu();
 })();
